@@ -4,8 +4,7 @@
     "lib": [
       "es2019",
       "es2020",
-      "esnext",
-      "ESNext.String"
+      "esnext"
     ],
     "declaration": true,
     "module": "commonjs",

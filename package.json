@@ -16,7 +16,8 @@
     "test": "jest",
     "test:cover": "jest --coverage",
     "lint": "eslint .",
-    "build": "tsc && rollup -c rollup.config.esm.js"
+    "build": "tsc && rollup -c rollup.config.esm.js",
+    "prepare": "tsc"
   },
   "repository": {
     "type": "git",
