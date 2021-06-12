@@ -1,6 +1,8 @@
 # marked-terminal-renderer
 [marked](https://github.com/markedjs/marked) terminal renderer.
 
+[![CI](https://github.com/ziv/marked-terminal-renderer/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/ziv/marked-terminal-renderer/actions/workflows/main.yml)
+
 ## Features
 * Colors - thanks to [chalk](https://github.com/chalk/chalk)
 * Tables - thanks to [cli-table3](https://github.com/cli-table/cli-table3)
