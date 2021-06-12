@@ -1,6 +1,6 @@
 {
-  "name": "marked-extension-template",
-  "version": "0.0.1",
+  "name": "marked-terminal-renderer",
+  "version": "0.0.0",
   "description": "marked terminal renderer",
   "main": "src/index.js",
   "keywords": [

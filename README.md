@@ -10,6 +10,11 @@
 * Code Highlighting - thanks to [cli-highlight](https://github.com/felixfbecker/cli-highlight)
 * Emoji - thanks to [node-emoji](https://github.com/omnidan/node-emoji)
 
+# Install
+```shell
+npm i marked-terminal-renderer
+```
+
 # Usage
 ```typescript
 import * as marked from 'marked';
