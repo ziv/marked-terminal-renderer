@@ -1,3 +1,10 @@
+.idea
+
+src/*.js
+src/*.d.ts
+spec/*.js
+spec/*.d.ts
+
 # Logs
 logs
 *.log
