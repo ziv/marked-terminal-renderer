@@ -1,4 +1,5 @@
 lib
-*.min.js
-src/*.js
-spec/*.js
+**/*.min.js
+release.config.js
+rollup.config.esm.js
+**/*.d.ts

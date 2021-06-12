@@ -15,7 +15,8 @@
   "scripts": {
     "test": "jest",
     "test:cover": "jest --coverage",
-    "lint": "eslint .",
+    "format": "eslint --fix src/*.ts && prettier --write src/*.ts",
+    "lint": "eslint src/*.ts",
     "build": "tsc && rollup -c rollup.config.esm.js",
     "prepare": "tsc"
   },
@@ -23,7 +24,7 @@
     "type": "git",
     "url": "git+https://github.com/ziv/marked-terminal-renderer.git"
   },
-  "author": "Ziv",
+  "author": "Ziv Perry",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ziv/marked-terminal-renderer/issues"
@@ -47,14 +48,15 @@
     "@types/marked": "^2.0.3",
     "@types/node": "^15.12.2",
     "@types/node-emoji": "^1.8.1",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
     "eslint": "^7.28.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "jest": "^27.0.4",
     "jest-cli": "^27.0.4",
     "marked": "^2.0.7",
+    "prettier": "^2.2.1",
     "rollup": "^2.51.2",
     "semantic-release": "^17.4.3",
     "ts-jest": "^27.0.3",
@@ -71,5 +73,42 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": "tsconfig.json",
+      "sourceType": "module"
+    },
+    "plugins": [
+      "@typescript-eslint/eslint-plugin"
+    ],
+    "extends": [
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "root": true,
+    "env": {
+      "node": true,
+      "jest": true
+    },
+    "ignorePatterns": [
+      "src/*.js",
+      "src/*.js.map",
+      "src/*.d.ts"
+    ],
+    "rules": {
+      "@typescript-eslint/interface-name-prefix": "off",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/no-unused-vars": "off"
+    }
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "singleQuote": true,
+    "trailingComma": "none",
+    "bracketSpacing": true,
+    "arrowParens": "avoid"
   }
 }

@@ -1,49 +1,52 @@
-import {Chalk} from 'chalk';
+import { Chalk } from 'chalk';
 
 export interface CliRendererOptions {
-    // terminal
-    lineLength: number;
-    indent: string;
-    mode?: 'dark' | 'light';
+  // terminal
+  lineLength: number;
+  indent: string;
+  mode?: 'dark' | 'light';
 
-    // text
-    strongStyle: Chalk;
-    emStyle: Chalk;
-    delStyle: Chalk;
+  // text
+  strongStyle: Chalk;
+  emStyle: Chalk;
+  delStyle: Chalk;
 
-    // heading
-    headingLevels: string[];
+  // heading
+  headingLevels: string[];
 
-    // code
-    codeStyle: Chalk;
-    codeInfoStyle: Chalk;
+  // code
+  codeStyle: Chalk;
+  codeInfoStyle: Chalk;
 
-    // block-quote
-    quotePadding: number;
-    quoteChar: string;
-    quoteStyle: Chalk;
+  // block-quote
+  quotePadding: number;
+  quoteChar: string;
+  quoteStyle: Chalk;
 
-    // hr
-    hrChar: string;
-    hrStyle: Chalk;
+  // hr
+  hrChar: string;
+  hrStyle: Chalk;
 
-    // lists
-    listStyle: Chalk;
-    listChar: string;
+  // lists
+  listStyle: Chalk;
+  listChar: string;
 
-    // checkbox
-    cbCheckedChar: string;
-    cbUncheckedChar: string;
-    cbStyle: Chalk;
+  // checkbox
+  cbCheckedChar: string;
+  cbUncheckedChar: string;
+  cbStyle: Chalk;
 
-    // link
-    linkStyle: Chalk;
+  // link
+  linkStyle: Chalk;
 
-    // table
-    // todo complete options
-    tableWordWrap: boolean;
+  // table
+  // todo complete options
+  tableWordWrap: boolean;
 }
 
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 export type InfoString = string | undefined;
-export type CellFlags = { header: boolean; align: 'center' | 'left' | 'right' | null };
+export type CellFlags = {
+  header: boolean;
+  align: 'center' | 'left' | 'right' | null;
+};

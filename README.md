@@ -3,6 +3,7 @@
 
 [![CI](https://github.com/ziv/marked-terminal-renderer/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/ziv/marked-terminal-renderer/actions/workflows/main.yml)
 [![CodeQL](https://github.com/ziv/marked-terminal-renderer/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/ziv/marked-terminal-renderer/actions/workflows/codeql-analysis.yml)
+
 ## Features
 * Colors - thanks to [chalk](https://github.com/chalk/chalk)
 * Tables - thanks to [cli-table3](https://github.com/cli-table/cli-table3)
