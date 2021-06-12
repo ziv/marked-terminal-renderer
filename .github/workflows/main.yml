@@ -48,7 +48,6 @@ jobs:
       - name: Lint ✨
         run: npm run lint
 
-  ########### Requires NPM_TOKEN in secrets ############
  Release:
    needs: [Test, Coverage, Lint]
    if: |
