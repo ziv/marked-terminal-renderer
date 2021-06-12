@@ -1,6 +1,6 @@
 .idea
 .npmrc
-
+lib
 src/*.js
 src/*.d.ts
 spec/*.js
