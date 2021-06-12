@@ -3,6 +3,8 @@ import {MarkedExtension} from './deps';
 import {CliRenderer} from './renderer';
 import {DARK, LIGHT} from './defaults';
 
+export * from './types';
+
 export default function (opts: Partial<CliRendererOptions> = {}): MarkedExtension {
     // default mode is dark
     const dark = !(opts.mode && opts.mode === 'light');

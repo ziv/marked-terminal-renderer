@@ -19,7 +19,7 @@ export const COMMON: Partial<CliRendererOptions> = {
 export const DARK = {
     ...COMMON,
     mode: 'dark',
-    headingLevels: ['00FF00', '00DD00', '00BB00', '009900', '007700', '005500'],
+    headingLevels: ['#00FF00', '#00DD00', '#00BB00', '#009900', '#007700', '#005500'],
     codeStyle: chalk.bgBlackBright,
     codeInfoStyle: chalk.bgGray.yellowBright,
     hrStyle: chalk.dim,

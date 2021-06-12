@@ -1,7 +1,7 @@
-import {emojify} from './deps';
+import {emojify, IOptions, wrap} from './deps';
 
 // helpers
-const pipe = (...functions) => args => functions.reduce((arg, fn) => fn(arg), args);
+export const pipe = (...functions) => args => functions.reduce((arg, fn) => fn(arg), args);
 
 const comma = item => `${item},`;
 const strip = item => item.substring(0, item.length - 1);
@@ -34,7 +34,8 @@ const textReplacers: [string | RegExp, string][] = [
     [/&quot;/g, '"'],
     [/&#39;/g, '\'']
 ];
-export const replacer = (text: string) => textReplacers.reduce((text: string, [target, dest]) => text.replace(target, dest), text);
+const replacer = (text: string) => textReplacers.reduce((text: string, [target, dest]) => text.replace(target, dest), text);
+export const wrapper = (opts: IOptions) => (text: string): string => wrap(text, opts);
 
 // compositions
-export const textify = pipe(replacer, emojify);
+export const textify = (...functions) => pipe(replacer, emojify, ...functions);

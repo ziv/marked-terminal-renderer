@@ -1,21 +1,14 @@
 import * as marked from 'marked';
-// import * as terminalRenderer from '../src';
+import terminalRenderer from '../src';
+import {MarkedOptions} from 'marked';
 
-describe('this-extension', () => {
-    it('should run', () => {
-        expect(true).toBeTruthy();
-    })
-    // beforeEach(() => {
-    //     marked.setOptions(marked.getDefaults());
-    // });
-    //
-    // test('no options', () => {
-    //     marked.use(thisExtension());
-    //     expect(marked('example markdown')).toBe('<p>example html</p>\n');
-    // });
-    //
-    // test('markdown not using this extension', () => {
-    //     marked.use(thisExtension());
-    //     expect(marked('not example markdown')).not.toBe('<p>example html</p>\n');
-    // });
+describe('marked-terminal-renderer', () => {
+    it.skip('use is not working', () => {
+        marked.use(terminalRenderer());
+        expect(marked('example')).toBe('\nexample\n');
+    });
+
+    it('simple test', () => {
+        expect(marked('example', terminalRenderer() as MarkedOptions)).toBe('\nexample\n');
+    });
 });
