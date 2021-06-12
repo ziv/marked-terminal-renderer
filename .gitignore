@@ -1,4 +1,5 @@
 .idea
+.npmrc
 
 src/*.js
 src/*.d.ts
