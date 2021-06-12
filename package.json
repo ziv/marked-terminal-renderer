@@ -22,7 +22,7 @@
     "type": "git",
     "url": "git+https://github.com/ziv/marked-terminal-renderer.git"
   },
-  "author": "xpr",
+  "author": "Ziv",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/ziv/marked-terminal-renderer/issues"
