@@ -46,7 +46,7 @@
     "@types/marked": "^2.0.3",
     "@types/node": "^15.12.2",
     "@types/node-emoji": "^1.8.1",
-    "eslint": "^7.28.0",
+    "eslint": "^7 .28.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-node": "^11.1.0",

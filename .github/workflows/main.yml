@@ -16,7 +16,7 @@ jobs:
       - name: Install Node
         uses: dcodeIO/setup-node-nvm@master
         with:
-          node-version: node
+          node-version: 'lts/*'
       - name: Install Dependencies
         run: npm ci
       - name: Run Tests 👩🏽‍💻
@@ -49,7 +49,7 @@ jobs:
         run: npm run lint
 
   Release:
-    needs: [ Test, Coverage, Lint ]
+    needs: [ Coverage, Lint ]
     if: |
       github.ref == 'refs/heads/main' &&
       github.event.repository.fork == false
