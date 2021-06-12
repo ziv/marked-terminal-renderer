@@ -1,15 +1,5 @@
-# TODO:
-
-- [x] Replace information in `/README.md`
-- [x] Replace information in `/package.json`
-- [x] Write extension in `/src/index.js`
-- [ ] Write tests in `/spec/index.test.js`
-- [ ] Uncomment release in `/.github/workflows/main.yml`
-
-<!-- Delete this line and above -->
-
 # marked-terminal-renderer
-Render Markdown files in the terminal.
+[marked](https://github.com/markedjs/marked) terminal renderer.
 
 ## Features
 * Colors - thanks to [chalk](https://github.com/chalk/chalk)
@@ -38,6 +28,3 @@ const src = `
 console.log(marked(src, terminalRenderer()))
 ```
 
-## `options`
-
-<!-- If there are no options you can delete this section -->

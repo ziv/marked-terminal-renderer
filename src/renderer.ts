@@ -1,13 +1,11 @@
-import {chalk, highlight, Renderer, Slugger, Table, wrap} from './deps';
+import {chalk, highlight, Renderer, Slugger, Table} from './deps';
 import {CellFlags, CliRendererOptions, HeadingLevel, InfoString} from './types';
 import {asArray, asObject, fromArray, fromNestedArray, pipe, textify, wrapper} from './utils';
 
-const EMPTY = '';
 const SEP = ' ';
 const EOL = '\n';
 const LIST_CHAR = '྿';
 const NOT_EMPTY = flag => !!flag;
-const $ = chalk.greenBright('$');
 
 const block = text => EOL + text + EOL;
 const mapLines = (text: string, mapper: (s) => string) => text.split(EOL).map(mapper).join(EOL) + EOL;
@@ -118,21 +116,22 @@ export class CliRenderer extends Renderer {
     table(header: string, body: string): string {
         const {lineLength, tableWordWrap: wordWrap} = this.opts;
 
-        const headers = fromArray(header);
+        const head = fromArray(header);
         const rows = fromNestedArray(body);
 
-        const head = headers.map(h => h.content);
-
+        // create table with no columns restrictions
         let table = new Table({head, wordWrap});
-        table.push(...rows.map(row => row.map(r => r.content)));
+        table.push(...rows);
         const output = table.toString();
         const length = output.search(EOL);
-        if (length < lineLength) {
+        if (length <= lineLength) {
             return output + EOL;
         }
-        const width = Math.ceil(lineLength / headers.length);
-        table = new Table({head, wordWrap, colWidths: headers.map(() => width)});
-        table.push(...rows.map(row => row.map(r => r.content)));
+
+        // re-create table with normalized columns
+        const width = Math.ceil(lineLength / head.length);
+        table = new Table({head, wordWrap, colWidths: head.map(() => width)});
+        table.push(...rows);
         return table.toString() + EOL;
     }
 
@@ -141,7 +140,7 @@ export class CliRenderer extends Renderer {
     }
 
     tablecell(content: string, flags: CellFlags): string {
-        return asObject({content, flags});
+        return asObject(content);
     }
 
     // helpers

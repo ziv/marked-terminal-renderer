@@ -11,7 +11,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": false,
-    "rootDir": "src",
+    "rootDir": ".",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "strictNullChecks": true,

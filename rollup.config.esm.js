@@ -1,5 +1,6 @@
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
 
 module.exports = {
   input: 'src/index.js',
@@ -9,6 +10,7 @@ module.exports = {
   },
   plugins: [
     nodeResolve(),
-    commonjs()
+    commonjs(),
+    json()
   ]
 };
