@@ -1,10 +1,26 @@
 import { emojify, IOptions, wrap } from './deps';
+import { CliRenderer } from './renderer';
 
 // helpers
+
+/**
+ * Functions composition
+ * @param funcs
+ */
 export const pipe =
-  (...functions) =>
+  (...funcs) =>
   args =>
-    functions.reduce((arg, fn) => fn(arg), args);
+    funcs.reduce((arg, fn) => fn(arg), args);
+
+/**
+ * Convert CliRenderer class to plain object
+ * @param r
+ */
+export const asPlain = (r: CliRenderer) =>
+  Reflect.ownKeys(CliRenderer.prototype).reduce(
+    (obj, key) => ({ ...obj, [key]: r[key].bind(r) }),
+    {}
+  );
 
 const comma = item => `${item},`;
 const strip = item => item.substring(0, item.length - 1);

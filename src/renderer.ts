@@ -15,13 +15,13 @@ import {
   wrapper
 } from './utils';
 
-const SEP = ' ';
-const EOL = '\n';
-const LIST_CHAR = '྿';
+const SEP = ' '; // separator
+const EOL = '\n'; // end of line
+const LI = '྿'; // list character
 const NOT_EMPTY = flag => !!flag;
 
 const block = text => EOL + text + EOL;
-const mapLines = (text: string, mapper: (s) => string) =>
+const lines = (text: string, mapper: (s) => string) =>
   text.split(EOL).map(mapper).join(EOL) + EOL;
 
 export class CliRenderer extends Renderer {
@@ -71,6 +71,7 @@ export class CliRenderer extends Renderer {
   }
 
   text(text: string): string {
+    // todo do we need the wrapper here?
     return textify()(text);
     // return textify(this.wrapper)(text);
   }
@@ -81,7 +82,7 @@ export class CliRenderer extends Renderer {
     const { lineLength, codeStyle, codeInfoStyle } = this.opts;
     const mapper = line =>
       SEP + codeStyle((SEP + line).padEnd(lineLength - 2, SEP));
-    const rendered = mapLines(block(code.trim()), mapper);
+    const rendered = lines(block(code.trim()), mapper);
     return infostring
       ? highlight(rendered, { language: infostring }) +
           SEP +
@@ -94,7 +95,7 @@ export class CliRenderer extends Renderer {
     const { quotePadding, quoteChar, quoteStyle } = this.opts;
     const mapper = line =>
       quoteStyle(SEP.repeat(quotePadding) + quoteChar + SEP + line);
-    return block(mapLines(quote.trim(), mapper));
+    return block(lines(quote.trim(), mapper));
   }
 
   heading(
@@ -103,9 +104,9 @@ export class CliRenderer extends Renderer {
     raw: string,
     slugger: Slugger
   ): string {
-    const { headingLevels } = this.opts;
-    const style = chalk.hex(headingLevels[level - 1]);
-    return pipe(style, this.wrapper, block)(text);
+    const { headingLevels, headingStyle } = this.opts;
+    const levelStyle = chalk.hex(headingLevels[level - 1]);
+    return pipe(levelStyle, headingStyle, this.wrapper, block)(text);
   }
 
   hr(): string {
@@ -120,21 +121,20 @@ export class CliRenderer extends Renderer {
   // COMPOUND
 
   html(html: string): string {
-    return block(chalk.redBright('HTML need to be implemented'));
+    return block(chalk.redBright('HTML not implemented'));
   }
 
   list(body: string, ordered: boolean, start: number): string {
-    // todo consider use data as table
     const { listChar, listStyle } = this.opts;
     const mapper = ordered
-      ? line => SEP + line.replace(LIST_CHAR, listStyle(start++))
-      : line => SEP + line.replace(LIST_CHAR, listStyle(listChar));
+      ? line => SEP + line.replace(LI, listStyle(start++))
+      : line => SEP + line.replace(LI, listStyle(listChar));
     return EOL + body.split(EOL).filter(NOT_EMPTY).map(mapper).join(EOL) + EOL;
   }
 
   listitem(text: string): string {
     const mapper = (line, index) =>
-      index === 0 ? `${LIST_CHAR} ${line}` : `  ${line}`;
+      index === 0 ? `${LI} ${line}` : `  ${line}`;
     return text.split(EOL).filter(NOT_EMPTY).map(mapper).join(EOL).trim() + EOL;
   }
 

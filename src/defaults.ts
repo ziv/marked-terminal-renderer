@@ -11,6 +11,7 @@ export const COMMON: Partial<CliRendererOptions> = {
   cbCheckedChar: '☑',
   cbUncheckedChar: '☐',
   tableWordWrap: true,
+  headingStyle: chalk.bold,
   strongStyle: chalk.bold,
   emStyle: chalk.italic,
   delStyle: chalk.strikethrough
@@ -40,12 +41,19 @@ export const DARK = {
 export const LIGHT = {
   ...COMMON,
   mode: 'dark',
-  headingLevels: ['00FF00', '00DD00', '00BB00', '009900', '007700', '005500'],
-  codeStyle: chalk.bgGray,
-  codeInfoStyle: chalk.bgGray.yellowBright,
+  headingLevels: [
+    '#ff0000',
+    '#dd0000',
+    '#bb0000',
+    '#990000',
+    '#770000',
+    '#550000'
+  ],
+  codeStyle: chalk.bgWhite,
+  codeInfoStyle: chalk.bgWhite.black,
   hrStyle: chalk.dim,
   quoteStyle: chalk.dim,
-  listStyle: chalk.cyan,
-  cbStyle: chalk.cyan,
+  listStyle: chalk.redBright,
+  cbStyle: chalk.redBright,
   linkStyle: chalk.blueBright
 } as CliRendererOptions;

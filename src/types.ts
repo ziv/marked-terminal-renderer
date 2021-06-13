@@ -13,6 +13,7 @@ export interface CliRendererOptions {
 
   // heading
   headingLevels: string[];
+  headingStyle: Chalk;
 
   // code
   codeStyle: Chalk;

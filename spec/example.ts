@@ -1,20 +1,16 @@
 import * as marked from 'marked';
 import terminalRenderer from '../src';
-import {readFileSync} from 'fs';
-import {resolve} from 'path';
-import {MarkedOptions} from 'marked';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
+import { DARK, LIGHT } from '../src/defaults';
+
+const themes = [DARK, LIGHT]; // add more themes in this array
+
+const theme = process.argv.length > 1 ? Number(process.argv[2]) : 0;
 
 const src = readFileSync(resolve(__dirname, 'example.md')).toString();
-const extension = terminalRenderer();
+const extension = terminalRenderer(themes[theme]);
 
-// not working
-// marked.use(extension);
-
-// working
-marked.setOptions(extension as MarkedOptions);
+marked.use(extension);
 
 console.log(marked(src));
-
-// also working
-// console.log(marked(src, extension as MarkedOptions));
-
