@@ -8,11 +8,13 @@ export * from './types';
 
 // the default mode is dark
 // this extension expose renderer only
-export default function (opts?: CliRendererOptions): MarkedExtension {
-  if (opts) {
-    // if options provided, merged with defaults
-    // to make sure all options exists
-    opts = opts.mode === 'light' ? { ...LIGHT, ...opts } : { ...DARK, ...opts };
-  }
-  return { renderer: asPlain(new CliRenderer(opts || DARK)) };
+export default function (opts?: Partial<CliRendererOptions>): MarkedExtension {
+  // if options provided, merged with defaults
+  // to make sure all options exists
+  const options: CliRendererOptions = opts
+    ? opts.mode === 'light'
+      ? { ...LIGHT, ...opts }
+      : { ...DARK, ...opts }
+    : DARK;
+  return { renderer: asPlain(new CliRenderer(options)) };
 }

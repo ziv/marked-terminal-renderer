@@ -14,7 +14,7 @@ npm i marked-terminal-renderer
 ## Usage
 ```typescript
 import * as marked from 'marked';
-import terminalRenderer from 'marked-terminal-renderer';
+import terminalRenderer, { CliRendererOptions } from 'marked-terminal-renderer';
 const src = `
 # h1 Heading
 
@@ -24,7 +24,7 @@ const src = `
   1. ordered
 `;
 
-const opts = {};
+const opts: CliRendererOptions = {...};
 marked.use(terminalRenderer(opts));
 
 console.log(marked(src, terminalRenderer()))
