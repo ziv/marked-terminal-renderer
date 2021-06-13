@@ -20,7 +20,7 @@
     "test:cover": "jest --coverage",
     "format": "eslint --fix src/*.ts && prettier --write src/*.ts",
     "lint": "eslint src/*.ts",
-    "build": "tsc && rollup -c rollup.config.esm.js",
+    "build": "rm -rf lib && tsc && rollup -c rollup.config.esm.js",
     "prepare": "tsc"
   },
   "repository": {
