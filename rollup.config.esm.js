@@ -3,7 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 
 module.exports = {
-  input: 'src/index.js',
+  input: 'lib/index.js',
   output: {
     file: 'lib/index.mjs',
     format: 'esm'

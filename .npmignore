@@ -1,6 +1,6 @@
 .github
 coverage
-spec
+src
 *.ts
 !*.d.ts
 release.config.js

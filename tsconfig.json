@@ -10,8 +10,8 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": false,
-    "rootDir": ".",
-    "outDir": "dist",
+    "rootDir": "src",
+    "outDir": "lib",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
@@ -20,5 +20,8 @@
       "node",
       "jest"
     ]
-  }
+  },
+  "exclude": [
+    "tmp"
+  ]
 }

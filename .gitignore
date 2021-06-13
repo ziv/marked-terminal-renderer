@@ -1,10 +1,10 @@
 .idea
 .npmrc
 lib
+tmp
 src/*.js
 src/*.d.ts
-spec/*.js
-spec/*.d.ts
+
 
 # Logs
 logs
