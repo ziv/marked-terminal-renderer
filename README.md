@@ -41,6 +41,8 @@ console.log(marked(src));
 node examples/example.mjs
 ```
 Output:
+<img src="examples/example.png" alt="output" width="200">
+
 ![output](examples/example.png)
 
 ## Options
