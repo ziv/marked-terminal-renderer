@@ -1,22 +1,17 @@
 # marked-terminal-renderer
-[marked](https://github.com/markedjs/marked) terminal renderer.
+
+[marked](https://github.com/markedjs/marked) extension with a terminal renderer.
 
 [![CI](https://github.com/ziv/marked-terminal-renderer/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/ziv/marked-terminal-renderer/actions/workflows/main.yml)
 [![CodeQL](https://github.com/ziv/marked-terminal-renderer/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/ziv/marked-terminal-renderer/actions/workflows/codeql-analysis.yml)
 
-## Features
-* Colors - thanks to [chalk](https://github.com/chalk/chalk)
-* Tables - thanks to [cli-table3](https://github.com/cli-table/cli-table3)
-* Wrapping - thanks to [word-wrap](https://github.com/jonschlinkert/word-wrap)
-* Code Highlighting - thanks to [cli-highlight](https://github.com/felixfbecker/cli-highlight)
-* Emoji - thanks to [node-emoji](https://github.com/omnidan/node-emoji)
 
-# Install
+## Install
 ```shell
 npm i marked-terminal-renderer
 ```
 
-# Usage
+## Usage
 ```typescript
 import * as marked from 'marked';
 import terminalRenderer from 'marked-terminal-renderer';
@@ -29,10 +24,15 @@ const src = `
   1. ordered
 `;
 
-// this method is not working, an issue opened
-// const opts = {};
-// marked.use(terminalRenderer(opts));
+const opts = {};
+marked.use(terminalRenderer(opts));
 
 console.log(marked(src, terminalRenderer()))
 ```
 
+## Features
+* Colors - thanks to [chalk](https://github.com/chalk/chalk)
+* Tables - thanks to [cli-table3](https://github.com/cli-table/cli-table3)
+* Wrapping - thanks to [word-wrap](https://github.com/jonschlinkert/word-wrap)
+* Code Highlighting - thanks to [cli-highlight](https://github.com/felixfbecker/cli-highlight)
+* Emoji - thanks to [node-emoji](https://github.com/omnidan/node-emoji)
