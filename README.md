@@ -4,6 +4,9 @@
 
 [![CI](https://github.com/ziv/marked-terminal-renderer/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/ziv/marked-terminal-renderer/actions/workflows/main.yml)
 [![CodeQL](https://github.com/ziv/marked-terminal-renderer/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/ziv/marked-terminal-renderer/actions/workflows/codeql-analysis.yml)
+
+
+[![downloads](https://badgen.net/npm/dt/marked-terminal-renderer)](https://www.npmjs.com/package/marked-terminal-renderer)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 
