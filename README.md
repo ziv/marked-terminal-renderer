@@ -36,6 +36,13 @@ const src = readFileSync(new URL('example.md', import.meta.url)).toString();
 console.log(marked(src));
 ```
 
+### Examples
+```shell
+node examples/example.mjs
+```
+Output:
+![output](examples/example.png)
+
 ## Options
 TBW
 
