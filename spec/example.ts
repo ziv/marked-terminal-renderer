@@ -1,10 +1,10 @@
 import * as marked from 'marked';
-import terminalRenderer from '../src';
+import terminalRenderer, { CliRendererOptions } from '../src';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { DARK, LIGHT } from '../src/defaults';
 
-const themes = [DARK, LIGHT]; // add more themes in this array
+const themes: CliRendererOptions[] = [DARK, LIGHT]; // add more themes in this array
 
 const theme = process.argv.length > 1 ? Number(process.argv[2]) : 0;
 
