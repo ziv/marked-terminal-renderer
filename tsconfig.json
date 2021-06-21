@@ -22,6 +22,7 @@
     ]
   },
   "exclude": [
-    "tmp"
+    "tmp",
+    "examples"
   ]
 }
