@@ -70,7 +70,7 @@
     "chalk": "^4.1.1",
     "cli-highlight": "^2.1.11",
     "cli-table3": "^0.6.0",
-    "node-emoji": "^1.10.0",
+    "node-emoji": "^1.11.0",
     "word-wrap": "^1.2.3"
   },
   "jest": {
