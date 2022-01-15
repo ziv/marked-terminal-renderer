@@ -58,7 +58,7 @@
     "eslint-plugin-prettier": "^3.4.1",
     "jest": "^27.1.0",
     "jest-cli": "^27.0.4",
-    "marked": "^3.0.2",
+    "marked": "^4.0.10",
     "prettier": "^2.3.2",
     "rollup": "^2.53.1",
     "semantic-release": "^17.4.4",
