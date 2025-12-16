@@ -304,12 +304,14 @@ export function createTerminalRenderer(
       if (currentListDepth === 0) {
         return output;
       }
+      // text inside a list, need to wrap accordingly
       if (strLen(output) <= opts.lineLength) {
         return output;
       }
       // need to wrap text
       const lines = hardWrap(output, opts.lineLength - (currentListDepth * 2))
         .split(EOL);
+      // first line as is, rest need to be indented
       const wrapped = [lines[0]];
       for (let i = 1; i < lines.length; ++i) {
         wrapped.push(SEP + SEP + lines[i]);

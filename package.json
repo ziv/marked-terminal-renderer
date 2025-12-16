@@ -9,7 +9,8 @@
   },
   "scripts": {
     "example": "tsx ./examples/example.mts",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "tsx --test"
   },
   "keywords": [
     "marked",
