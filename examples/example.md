@@ -66,17 +66,18 @@ sapien ac mi finibus, sed euismod dolor maximus.
 ### Nested list and long items wrapping:
 
 1. Parent 1
-    - Subitem 1a
-    - Subitem 1b
+   - Subitem 1a
+   - Subitem 1b
 2. Parent 2
-    1. Subitem 2a
-    2. Subitem 2b
-        - Subitem 2b1
-        - Another item Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit.
-        - Subitem 2b2
-        - Subitem 2b3
+   1. Subitem 2a
+   2. Subitem 2b
+      - Subitem 2b1
+      - Another item Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum
+        dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet,
+        consectetur adipiscing elit.
+      - Subitem 2b2
+      - Subitem 2b3
 
 ## Code
 
@@ -100,12 +101,12 @@ There are two algorithms that try to fit the content within the terminal width.
 If the table is too wide, it will be wrapped accordingly.
 
 | Letter | Number |
-|--------|--------|
+| ------ | ------ |
 | A      | 1      |
 | B      | 2      |
 
 | Option | Description                                                               |
-|--------|---------------------------------------------------------------------------|
+| ------ | ------------------------------------------------------------------------- |
 | data   | path to data files to supply the data that will be passed into templates. |
 | engine | engine to be used for processing templates. Handlebars is the default.    |
 | ext    | extension to be used for dest files.                                      |

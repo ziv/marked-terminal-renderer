@@ -3,29 +3,29 @@ import {
   Renderer,
   RendererObject,
   Token,
-  Tokens
-} from 'marked';
-import type { ChalkInstance } from 'chalk';
-import chalk from 'chalk';
-import terminalLink from 'terminal-link';
-import got from 'got';
-import boxen from 'boxen';
-import Table from 'cli-table3';
-import terminalImage from 'terminal-image';
-import ansiRegex from 'ansi-regex';
-import { highlight } from 'cli-highlight';
-import { emojify } from 'node-emoji';
+  Tokens,
+} from "marked";
+import type { ChalkInstance } from "chalk";
+import chalk from "chalk";
+import terminalLink from "terminal-link";
+import got from "got";
+import boxen from "boxen";
+import Table from "cli-table3";
+import terminalImage from "terminal-image";
+import ansiRegex from "ansi-regex";
+import { highlight } from "cli-highlight";
+import { emojify } from "node-emoji";
 
-const SEP = ' '; // separator
-const EOL = '\n'; // end of line
-const LI = '྿'; // list character (meta char to avoid collision)
+const SEP = " "; // separator
+const EOL = "\n"; // end of line
+const LI = "྿"; // list character (meta char to avoid collision)
 
 /**
  * Get the length of a string without ANSI codes.
  * @param str
  */
 function strLen(str: string): number {
-  return str.replace(ansiRegex(), '').length;
+  return str.replace(ansiRegex(), "").length;
 }
 
 /**
@@ -46,17 +46,17 @@ function symbols(text: string): string {
 
   // then replace other text patterns
   const textReplacers: [string | RegExp, string][] = [
-    [/\(c\)/g, '©'],
-    [/\(C\)/g, '©'],
-    [/\(tm\)/g, '™'],
-    [/\(TM\)/g, '™'],
-    [/\(r\)/g, '®'],
-    [/\(R\)/g, '®'],
-    [/\(p\)/g, '℗'],
-    [/\(P\)/g, '℗'],
-    [/\+-/g, '±'],
+    [/\(c\)/g, "©"],
+    [/\(C\)/g, "©"],
+    [/\(tm\)/g, "™"],
+    [/\(TM\)/g, "™"],
+    [/\(r\)/g, "®"],
+    [/\(R\)/g, "®"],
+    [/\(p\)/g, "℗"],
+    [/\(P\)/g, "℗"],
+    [/\+-/g, "±"],
     [/&quot;/g, '"'],
-    [/&#39;/g, '\'']
+    [/&#39;/g, "'"],
   ];
   for (const [search, replace] of textReplacers) {
     text = text.replace(search, replace);
@@ -70,7 +70,7 @@ function symbols(text: string): string {
  * @param padding
  */
 export function padLines(text: string, padding = 2): string {
-  return text.split(EOL).join(EOL + ' '.repeat(padding));
+  return text.split(EOL).join(EOL + " ".repeat(padding));
 }
 
 /**
@@ -80,20 +80,20 @@ export function padLines(text: string, padding = 2): string {
  * @param width
  */
 export function hardWrap(text: string, width: number) {
-  let current = '';
+  let current = "";
   const lines: string[] = [];
-  for (const next of text.replace(/\n/g, ' ').split(' ')) {
+  for (const next of text.replace(/\n/g, " ").split(" ")) {
     if (strLen(current) + strLen(next) >= width) {
       lines.push(current);
       current = next;
-    } else if (current === '') {
+    } else if (current === "") {
       current = next;
     } else {
-      current += ' ' + next;
+      current += " " + next;
     }
   }
   lines.push(current);
-  return lines.join('\n');
+  return lines.join("\n");
 }
 
 /**
@@ -102,10 +102,10 @@ export function hardWrap(text: string, width: number) {
  */
 export function trimEmptyLines(text: string): string {
   const lines = text.split(EOL);
-  while (lines[0]?.trim() === '') {
+  while (lines[0]?.trim() === "") {
     lines.shift();
   }
-  while (lines[lines.length - 1]?.trim() === '') {
+  while (lines[lines.length - 1]?.trim() === "") {
     lines.pop();
   }
   return lines.join(EOL);
@@ -161,15 +161,15 @@ export type TerminalRendererOptions = {
 const BaseOptions: Partial<TerminalRendererOptions> = {
   lineLength: 100,
   quotePadding: 1,
-  quoteChar: '│',
-  hrChar: '─',
-  listChar: '•',
-  cbCheckedChar: '☑',
-  cbUncheckedChar: '☐',
+  quoteChar: "│",
+  hrChar: "─",
+  listChar: "•",
+  cbCheckedChar: "☑",
+  cbUncheckedChar: "☐",
   tableWordWrap: true,
   strongStyle: chalk.bold,
   emStyle: chalk.italic,
-  delStyle: chalk.strikethrough
+  delStyle: chalk.strikethrough,
 };
 
 export const DarkTheme = {
@@ -180,14 +180,14 @@ export const DarkTheme = {
     chalk.bold.yellowBright,
     chalk.bold.yellowBright,
     chalk.bold.yellowBright,
-    chalk.bold.yellowBright
+    chalk.bold.yellowBright,
   ],
   codeStyle: chalk.bgBlackBright,
   hrStyle: chalk.dim,
   quoteStyle: chalk.dim,
   listStyle: chalk.cyan,
   cbStyle: chalk.cyan,
-  linkStyle: chalk.blueBright
+  linkStyle: chalk.blueBright,
 } as TerminalRendererOptions;
 
 // todo replace colors
@@ -199,14 +199,14 @@ export const LightTheme = {
     chalk.bold.yellowBright,
     chalk.bold.yellowBright,
     chalk.bold.yellowBright,
-    chalk.bold.yellowBright
+    chalk.bold.yellowBright,
   ],
   codeStyle: chalk.bgWhite,
   hrStyle: chalk.dim,
   quoteStyle: chalk.dim,
   listStyle: chalk.redBright,
   cbStyle: chalk.redBright,
-  linkStyle: chalk.blueBright
+  linkStyle: chalk.blueBright,
 } as TerminalRendererOptions;
 
 /**
@@ -214,7 +214,7 @@ export const LightTheme = {
  * @param opts
  */
 export function createTerminalRenderer(
-  opts: TerminalRendererOptions
+  opts: TerminalRendererOptions,
 ): MarkedExtension {
   // hold current list depth for proper padding
   let currentListDepth = 0;
@@ -222,12 +222,12 @@ export function createTerminalRenderer(
   // walk through tokens to modify them before rendering
   // process images here
   const walkTokens = async (token: Token) => {
-    if (token.type === 'image') {
+    if (token.type === "image") {
       // todo fix reading relative paths
       // todo add error handling
       // todo add sizing support
       const options = { height: 5 };
-      if (token.href.startsWith('http')) {
+      if (token.href.startsWith("http")) {
         const body = await got(token.href).buffer();
         token.text = await terminalImage.buffer(body, options);
       } else {
@@ -238,36 +238,36 @@ export function createTerminalRenderer(
 
   // helper to render inline tokens
   function inline(r: Renderer, token: Token) {
-    if ('tokens' in token && Array.isArray(token.tokens)) {
+    if ("tokens" in token && Array.isArray(token.tokens)) {
       return r.parser.parseInline(token.tokens);
     }
-    if ('text' in token && typeof token.text === 'string') {
+    if ("text" in token && typeof token.text === "string") {
       return token.text;
     }
-    return chalk.redBright('<ERROR INLINE>');
+    return chalk.redBright("<ERROR INLINE>");
   }
 
   // helper to render block tokens
   function block(r: Renderer, token: Token) {
-    if ('tokens' in token && Array.isArray(token.tokens)) {
+    if ("tokens" in token && Array.isArray(token.tokens)) {
       return r.parser.parse(token.tokens);
     }
-    if ('text' in token && typeof token.text === 'string') {
+    if ("text" in token && typeof token.text === "string") {
       return token.text;
     }
-    return chalk.redBright('<ERROR BLOCK>');
+    return chalk.redBright("<ERROR BLOCK>");
   }
 
   const renderer: RendererObject = {
     // inline elements
 
     space(_: Tokens.Space): string {
-      return '';
+      return "";
     },
 
     checkbox(token: Tokens.Checkbox): string {
       return opts.cbStyle(
-        token.checked ? opts.cbCheckedChar : opts.cbUncheckedChar
+        token.checked ? opts.cbCheckedChar : opts.cbUncheckedChar,
       ) + SEP;
     },
 
@@ -302,9 +302,7 @@ export function createTerminalRenderer(
 
     text(token: Tokens.Text | Tokens.Escape): string {
       const output = symbols(
-        (token.type === 'text')
-          ? inline(this, token)
-          : token.text
+        (token.type === "text") ? inline(this, token) : token.text,
       );
       if (currentListDepth === 0) {
         return output;
@@ -313,7 +311,8 @@ export function createTerminalRenderer(
         return output;
       }
       // need to wrap text
-      const lines = hardWrap(output, opts.lineLength - (currentListDepth * 2)).split(EOL);
+      const lines = hardWrap(output, opts.lineLength - (currentListDepth * 2))
+        .split(EOL);
       const wrapped = [lines[0]];
       for (let i = 1; i < lines.length; ++i) {
         wrapped.push(SEP + SEP + lines[i]);
@@ -324,15 +323,15 @@ export function createTerminalRenderer(
     // block elements
 
     code(token: Tokens.Code): string {
-      const language = token.lang ?? '';
+      const language = token.lang ?? "";
       const output = highlight(token.text, { language });
 
       return section(boxen(output, {
         title: language,
-        titleAlignment: 'left',
+        titleAlignment: "left",
         width: opts.lineLength,
         padding: 1,
-        borderColor: 'gray'
+        borderColor: "gray",
       }));
     },
 
@@ -341,14 +340,14 @@ export function createTerminalRenderer(
         opts.quoteStyle(
           trimEmptyLines(block(this, token)).split(EOL).map((line) =>
             opts.quoteChar + SEP + line
-          ).join(EOL)
-        )
+          ).join(EOL),
+        ),
       );
     },
 
     def(_: Tokens.Def): string {
       // todo implement me
-      return '';
+      return "";
     },
 
     heading(token: Tokens.Heading): string {
@@ -369,10 +368,10 @@ export function createTerminalRenderer(
     html(_: Tokens.HTML | Tokens.Tag): string {
       console.warn(
         chalk.yellowBright(
-          '[TerminalRenderer] HTML token encountered, which is not supported in terminal renderer. Content will be skipped.'
-        )
+          "[TerminalRenderer] HTML token encountered, which is not supported in terminal renderer. Content will be skipped.",
+        ),
       );
-      return '';
+      return "";
     },
 
     list(token: Tokens.List): string {
@@ -380,26 +379,26 @@ export function createTerminalRenderer(
 
       const items = token.items.map((i) => this.listitem(i));
 
-      let output = '';
+      let output = "";
       if (token.ordered) {
         // ordered list need a counter
         let start = token.start || 1;
         output = padLines(
           EOL +
-          items.map((line) => line.replace(LI, opts.listStyle(start++ + '.')))
-            .join(EOL)
+            items.map((line) => line.replace(LI, opts.listStyle(start++ + ".")))
+              .join(EOL),
         );
       } else {
         // unordered list/checkboxes
         output = padLines(
           EOL +
-          items.map((line) => line.replace(LI, opts.listStyle(opts.listChar)))
-            .join(EOL)
+            items.map((line) => line.replace(LI, opts.listStyle(opts.listChar)))
+              .join(EOL),
         );
       }
       currentListDepth--;
       return section(
-        (currentListDepth === 0) ? trimEmptyLines(output) : output
+        (currentListDepth === 0) ? trimEmptyLines(output) : output,
       );
     },
 
@@ -427,7 +426,7 @@ export function createTerminalRenderer(
       table = new Table({ head, wordWrap, colWidths: head.map(() => width) });
       table.push(...bodyRows);
       return section(table.toString());
-    }
+    },
   };
 
   return { renderer, walkTokens, async: true };
