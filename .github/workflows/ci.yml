@@ -22,9 +22,8 @@ jobs:
       contents: write
       issues: write
       id-token: write
-#    env:
-#      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-#      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: ⛵️ checkout
         uses: actions/checkout@v5
@@ -48,8 +47,8 @@ jobs:
       - name: 🌈 build
         run: npm run build
 
-#      - name: 🧪 test
-#        run: npm test
+      #      - name: 🧪 test
+      #        run: npm test
 
       - name: 🦋release
         run: npx semantic-release
