@@ -15,6 +15,8 @@ Most Markdown syntax is supported and rendered with supported terminal:
 - 🌼 Lists (ordered, unordered, nested, task lists)
 - 🌼 Emojis
 
+## Example output rendered in `iTerm2`
+
 ![example](./examples/example.png)
 
 ### Usage
@@ -43,7 +45,8 @@ console.log(
 
 - [ ] should support different highlight based on themes (dark/light)
 - [ ] support auto numbered nested lists (1., 1.1., 1.1.1., etc)
-- [ ] fix any wrapping issues with nested elements (like lists inside blockquotes)
+- [ ] fix any wrapping issues with nested elements (like lists inside
+  blockquotes)
 
 ### 3rd Party Libraries
 

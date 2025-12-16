@@ -2,7 +2,6 @@
 
 ## Headline
 
-- List item with `inline code`
 - With **bold text**
 - With _italic text_
 - With ~~strikethrough~~
@@ -19,13 +18,15 @@ Supports emojis using `:emoji_name:` syntax. :smile: :heart: :+1: :tada:
 
 ## Code, Tables, Images, and More
 
-Inline `code` is marked and blocks of code are highlighted accordingly.
+Inline `code` is marked and blocks of code are highlighted:
 
 ```typescript
 export function inc(counter: number): number {
   return counter++;
 }
 ```
+
+![Markdown logo](./logo.png)
 
 | Letter | Number |
 |--------|--------|
