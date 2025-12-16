@@ -1,0 +1,50 @@
+{
+  "name": "marked-terminal-renderer",
+  "version": "1.1.5",
+  "description": "marked terminal renderer",
+  "scripts": {
+    "example": "tsx ./examples/example.mts"
+  },
+  "keywords": [
+    "marked",
+    "extension",
+    "cli",
+    "terminal",
+    "tty",
+    "md",
+    "markdown"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ziv/marked-terminal-renderer.git"
+  },
+  "author": "Ziv Perry",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ziv/marked-terminal-renderer/issues"
+  },
+  "homepage": "https://github.com/ziv/marked-terminal-renderer#readme",
+  "dependencies": {
+    "boxen": "^8.0.1",
+    "chalk": "^5.6.2",
+    "cli-highlight": "^2.1.11",
+    "cli-table3": "^0.6.5",
+    "got": "^14.6.5",
+    "node-emoji": "^2.2.0",
+    "terminal-image": "^4.1.0",
+    "terminal-link": "^5.0.0"
+  },
+  "devDependencies": {
+    "@tsconfig/node24": "^24.0.3",
+    "@types/node": "^25.0.2",
+    "marked": "^17.0.1"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/github"
+    ]
+  },
+}

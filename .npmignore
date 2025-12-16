@@ -1,0 +1,8 @@
+.github
+coverage
+src
+*.ts
+!*.d.ts
+release.config.js
+rollup.config.esm.js
+tsconfig.json
