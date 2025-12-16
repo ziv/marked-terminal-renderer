@@ -96,27 +96,6 @@ export function hardWrap(text: string, width: number) {
   return lines.join('\n');
 }
 
-export function justify(text: string, width: number): string {
-  const newlines: string[] = [];
-  for (const line of text.split(EOL)) {
-    let l = line;
-
-    while (strLen(l) < width) {
-      // replace single space with double space to expand line
-      // single space must be between non-space characters
-      const newLine = l.replace(/(\S) (\S)/, '$1  $2');
-      if (newLine === l) {
-        // no more spaces to expand
-        break;
-      } else {
-        l = newLine;
-      }
-    }
-    newlines.push(l);
-  }
-  return newlines.join(EOL);
-}
-
 /**
  * Trim empty lines if any from the given text.
  * @param text
