@@ -7,7 +7,8 @@ import { createTerminalRenderer, DarkTheme } from './renderer.mjs';
 const args = process.argv.slice(2);
 
 if (args.length !== 1) {
-  console.log('Usage: catmd <path-to-markdown-file>');
+  console.error('Usage: catmd <path-to-markdown-file>');
+  process.exit(1);
 }
 
 const path = resolve(args[0]);
