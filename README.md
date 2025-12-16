@@ -3,6 +3,18 @@
 Modern, full featured terminal renderer extension for
 [marked](https://github.com/markedjs/marked).
 
+Most Markdown syntax is supported and rendered with supported terminal:
+
+- 🌼 Headings (H1 to H6)
+- 🌼 Bold, Italic, Strikethrough
+- 🌼 Blockquotes (with nesting support)
+- 🌼 Inline code and code blocks (with syntax highlighting)
+- 🌼 Links (with clickable support in supported terminals)
+- 🌼 Images
+- 🌼 Tables
+- 🌼 Lists (ordered, unordered, nested, task lists)
+- 🌼 Emojis
+
 ### Usage
 
 Installation using `npm` or any other package manager:
