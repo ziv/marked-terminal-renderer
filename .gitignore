@@ -4,6 +4,8 @@ lib
 tmp
 src/*.js
 src/*.d.ts
+*.js
+*.d.ts
 
 
 # Logs
