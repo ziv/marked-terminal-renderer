@@ -111,12 +111,6 @@ export function trimEmptyLines(text: string): string {
   return lines.join(EOL);
 }
 
-// todo should load dark/light themes based on terminal bg color
-// todo should support more themes
-// todo auto detect terminal capabilities (colors, images, links, etc)
-// todo wrapping text in any level (paragraphs, list items, table cells, etc)
-// todo support auto numbered nested lists (1., 1.1., 1.1.1., etc)
-
 export type TerminalRendererOptions = {
   // terminal
   lineLength: number;

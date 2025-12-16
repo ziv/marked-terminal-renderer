@@ -25,12 +25,18 @@ console.log(
 );
 ```
 
+### TODOs
+
+- [ ] should support different highlight based on themes (dark/light)
+- [ ] support auto numbered nested lists (1., 1.1., 1.1.1., etc)
+- [ ] fix any wrapping issues with nested elements (like lists inside blockquotes)
+
 ### 3rd Party Libraries
 
 Shout out to the following libraries that make this renderer possible ❤️:
 
 | Feature | Library                                                          |
-| ------- | ---------------------------------------------------------------- |
+|---------|------------------------------------------------------------------|
 | Tables  | [cli-table3](https://github.com/cli-table/cli-table3)            |
 | Colors  | [chalk](https://github.com/chalk/chalk)                          |
 | Images  | [terminal-image](https://github.com/sindresorhus/terminal-image) |
