@@ -1,11 +1,6 @@
-// ESM example
-import terminalRenderer from "../lib/index.mjs";
-import marked from "marked";
-import { readFileSync } from "fs";
-
-marked.use(terminalRenderer());
-
-// there is no __dirname in ESM (this is not a node environment)
-const src = readFileSync(new URL("example.md", import.meta.url)).toString();
-
-console.log(marked(src));
+import { marked } from "marked";
+import { readFileSync } from "node:fs";
+import { createTerminalRenderer, DarkTheme } from "../renderer.mjs";
+marked.use(createTerminalRenderer(DarkTheme));
+const output = await marked.parse(readFileSync("./examples/example.md", "utf-8"));
+console.log(output);

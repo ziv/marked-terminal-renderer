@@ -2,8 +2,11 @@
   "name": "marked-terminal-renderer",
   "version": "1.1.5",
   "description": "marked terminal renderer",
+  "type": "module",
+  "exports": "./renderer.mjs",
   "scripts": {
-    "example": "tsx ./examples/example.mts"
+    "example": "tsx ./examples/example.mts",
+    "build": "tsc"
   },
   "keywords": [
     "marked",
@@ -38,8 +41,15 @@
   "devDependencies": {
     "@tsconfig/node24": "^24.0.3",
     "@types/node": "^25.0.2",
-    "marked": "^17.0.1"
+    "marked": "^17.0.1",
+    "semantic-release": "^25.0.2"
   },
+  "files": [
+    "renderer.mjs",
+    "renderer.d.mts",
+    "readme.md",
+    "LICENSE"
+  ],
   "release": {
     "plugins": [
       "@semantic-release/commit-analyzer",
