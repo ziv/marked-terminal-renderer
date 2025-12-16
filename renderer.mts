@@ -376,8 +376,6 @@ export function createTerminalRenderer(
     },
 
     list(token: Tokens.List): string {
-      // todo list item can be multi-line because we do text wrap, need to handle that
-      // todo if depth if 0, section is also redundant
       currentListDepth++;
 
       const items = token.items.map((i) => this.listitem(i));
