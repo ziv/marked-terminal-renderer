@@ -5,7 +5,7 @@ import { createTerminalRenderer, DarkTheme } from "../renderer.mjs";
 marked.use(createTerminalRenderer(DarkTheme));
 
 const output = await marked.parse(
-  readFileSync("./examples/example.md", "utf-8"),
+  readFileSync("./examples/short-example.md", "utf-8"),
 );
 
 console.log(output);
