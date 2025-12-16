@@ -1,22 +1,33 @@
 # marked-terminal-renderer
 
-Modern, full featured terminal renderer
-[marked](https://github.com/markedjs/marked) extension.
+Modern, full featured terminal renderer extension for [marked](https://github.com/markedjs/marked).
 
-## Install
+### Usage
+
+Installation using `npm` or any other package manager:
 
 ```shell
 npm i marked-terminal-renderer
 ```
 
-## Features
+Basic usage example:
 
-Thanks a lot to the following libraries that made this possible:
+```javascript
+import { marked } from 'marked';
+import { createTerminalRenderer, DarkTheme } from 'marked-terminal-renderer';
 
-| Feature | Supported using                                                  |
-| ------- | ---------------------------------------------------------------- |
+marked.use(createTerminalRenderer(DarkTheme));
+console.log(marked.parse('# Hello World\nThis is **bold text** and this is a [link](https://example.com). :smile:'));
+```
+
+### 3rd Party Libraries
+
+Shout out to the following libraries that make this renderer possible ❤️:
+
+| Feature | Library                                                          |
+|---------|------------------------------------------------------------------|
 | Tables  | [cli-table3](https://github.com/cli-table/cli-table3)            |
-| Color   | [chalk](https://github.com/chalk/chalk)                          |
+| Colors  | [chalk](https://github.com/chalk/chalk)                          |
 | Images  | [terminal-image](https://github.com/sindresorhus/terminal-image) |
 | Links   | [terminal-link](https://github.com/sindresorhus/terminal-link)   |
 | Emojis  | [node-emoji](https://github.com/omnidan/node-emoji)              |

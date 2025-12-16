@@ -122,9 +122,15 @@ export function justify(text: string, width: number): string {
  * @param text
  */
 export function trimEmptyLines(text: string): string {
-  return text.split('\n').filter((line) => line.trim() !== '').join('\n');
+  const lines = text.split(EOL);
+  while (lines[0]?.trim() === '') {
+    lines.shift();
+  }
+  while (lines[lines.length - 1]?.trim() === '') {
+    lines.pop();
+  }
+  return lines.join(EOL);
 }
-
 
 // todo should load dark/light themes based on terminal bg color
 // todo should support more themes
@@ -225,27 +231,28 @@ export const LightTheme = {
 } as TerminalRendererOptions;
 
 /**
- * Creates a CLI renderer extension for marked
+ * Creates a terminal renderer extension for marked
  * @param opts
  */
 export function createTerminalRenderer(
   opts: TerminalRendererOptions
 ): MarkedExtension {
+  // hold current list depth for proper padding
   let currentListDepth = 0;
 
   // walk through tokens to modify them before rendering
   // process images here
   const walkTokens = async (token: Token) => {
     if (token.type === 'image') {
+      // todo fix reading relative paths
+      // todo add error handling
+      // todo add sizing support
+      const options = { height: 5 };
       if (token.href.startsWith('http')) {
         const body = await got(token.href).buffer();
-        // todo add sizing support
-        token.text = await terminalImage.buffer(body, {
-          width: '50%',
-          height: '50%'
-        });
+        token.text = await terminalImage.buffer(body, options);
       } else {
-        token.text = await terminalImage.file(token.href);
+        token.text = await terminalImage.file(token.href, options);
       }
     }
   };
@@ -273,7 +280,6 @@ export function createTerminalRenderer(
   }
 
   const renderer: RendererObject = {
-
     // inline elements
 
     space(_: Tokens.Space): string {
@@ -316,9 +322,24 @@ export function createTerminalRenderer(
     },
 
     text(token: Tokens.Text | Tokens.Escape): string {
-      return (token.type === 'text')
-        ? symbols(inline(this, token))
-        : token.text;
+      const output = symbols(
+        (token.type === 'text')
+          ? inline(this, token)
+          : token.text
+      );
+      if (currentListDepth === 0) {
+        return output;
+      }
+      if (strLen(output) <= opts.lineLength) {
+        return output;
+      }
+      // need to wrap text
+      const lines = hardWrap(output, opts.lineLength - (currentListDepth * 2)).split(EOL);
+      const wrapped = [lines[0]];
+      for (let i = 1; i < lines.length; ++i) {
+        wrapped.push(SEP + SEP + lines[i]);
+      }
+      return wrapped.join(EOL);
     },
 
     // block elements
@@ -337,14 +358,13 @@ export function createTerminalRenderer(
     },
 
     blockquote(token: Tokens.Blockquote): string {
-      // todo complete me
-      // const text = padLines(autoApply(token));
-      // notify('blockquote', text);
-      // const { quotePadding, quoteChar, quoteStyle } = opts;
-      // const mapper = (line: string) =>
-      //   quoteStyle(SEP.repeat(quotePadding) + quoteChar + SEP + line);
-      // return block(lines(text.trim(), mapper));
-      return section(block(this, token));
+      return section(
+        opts.quoteStyle(
+          trimEmptyLines(block(this, token)).split(EOL).map((line) =>
+            opts.quoteChar + SEP + line
+          ).join(EOL)
+        )
+      );
     },
 
     def(_: Tokens.Def): string {
@@ -407,8 +427,7 @@ export function createTerminalRenderer(
     },
 
     listitem(token: Tokens.ListItem): string {
-      console.log(token);
-      return LI + SEP + block(this, token);
+      return trimEmptyLines(LI + SEP + block(this, token));
     },
 
     table({ header, rows }: Tokens.Table): string {
@@ -423,14 +442,14 @@ export function createTerminalRenderer(
       const output = table.toString();
       const length = output.search(EOL);
       if (length <= lineLength) {
-        return output + EOL;
+        return section(output);
       }
 
       // re-create table with normalized columns
       const width = Math.ceil(lineLength / head.length);
       table = new Table({ head, wordWrap, colWidths: head.map(() => width) });
       table.push(...bodyRows);
-      return table.toString() + EOL;
+      return section(table.toString());
     }
   };
 

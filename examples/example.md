@@ -2,22 +2,39 @@
 
 ## Text
 
-Handle Markdown formatting in terminal applications with support
-for **bold text**, _italic text_, ~~strikethrough~~ and [hyperlinks](https://github.com/ziv/marked-terminal-renderer).
-(in supported terminals).
+Handle Markdown formatting in terminal applications with support for **bold
+text**, _italic text_, ~~strikethrough~~ and
+[hyperlinks](https://github.com/ziv/marked-terminal-renderer). (in supported
+terminals).
 
-Including symbols replacement for common pattern like (c) (C) (r) (R) (tm) (TM) (p) (P) +-.
+Including symbols replacement for common pattern like (c) (C) (r) (R) (tm) (TM)
+(p) (P) +-.
 
-Supports emojis using `:emoji_name:` syntax. :smile: :heart: :+1: :tada: :rocket: :100: :fire: :clap: :sparkles:
+Supports emojis using `:emoji_name:` syntax. :smile: :heart: :+1: :tada:
+:rocket: :100: :fire: :clap: :sparkles:
 
-Long text will properly wrap around to the next line maintaining correct indentation.
+Long text will properly wrap around to the next line maintaining correct
+indentation.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis lorem mi, sit amet rhoncus nibh scelerisque eu.
-Phasellus blandit fringilla egestas. Pellentesque a turpis ut odio cursus cursus. Vestibulum mollis ac nunc a blandit.
-Cras tortor nulla, interdum ultrices sodales sed, imperdiet id libero. Etiam a quam dolor. Aliquam malesuada, lacus sit
-amet pellentesque imperdiet, lectus odio ultricies lectus, eget viverra odio orci ut tellus. Nulla elementum sapien ac
-mi finibus, sed euismod dolor maximus. Fusce convallis luctus dui vel rhoncus. Proin eget tellus at odio egestas
-pharetra. Nullam mi nisi, bibendum non luctus at, convallis in nisi.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis lorem
+mi, sit amet rhoncus nibh scelerisque eu. Phasellus blandit fringilla egestas.
+Pellentesque a turpis ut odio cursus cursus. Vestibulum mollis ac nunc a
+blandit. Cras tortor nulla, interdum ultrices sodales sed, imperdiet id libero.
+Etiam a quam dolor. Aliquam malesuada, lacus sit amet pellentesque imperdiet,
+lectus odio ultricies lectus, eget viverra odio orci ut tellus. Nulla elementum
+sapien ac mi finibus, sed euismod dolor maximus.
+
+## Blockquotes
+
+> To be or not to be, that is the question. Lorem ipsum dolor sit amet,
+> consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur
+> adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+>
+> To be or not to be, that is the question. Lorem ipsum dolor sit amet,
+> consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur
+> adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+>
+>> Blockquotes can also be nested...
 
 ## Lists
 
@@ -26,7 +43,6 @@ pharetra. Nullam mi nisi, bibendum non luctus at, convallis in nisi.
 - First item
 - Second item
 - Third item
-- Item with too long text that should properly wrap around to the next line and maintain correct indentation. Item with too long text that should properly wrap around to the next line and maintain correct indentation.
 - Another item
 
 ### Ordered list:
@@ -35,7 +51,7 @@ pharetra. Nullam mi nisi, bibendum non luctus at, convallis in nisi.
 2. ordered item B
 3. ordered item C
 
-### Starting from:
+### Ordered with different start:
 
 22. Item 22
 23. Next item (23)
@@ -47,7 +63,7 @@ pharetra. Nullam mi nisi, bibendum non luctus at, convallis in nisi.
 - [ ] Task 2
 - [ ] Task 3
 
-### Nested list:
+### Nested list and long items wrapping:
 
 1. Parent 1
     - Subitem 1a
@@ -56,5 +72,40 @@ pharetra. Nullam mi nisi, bibendum non luctus at, convallis in nisi.
     1. Subitem 2a
     2. Subitem 2b
         - Subitem 2b1
+        - Another item Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur
+          adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet,
+          consectetur adipiscing elit.
         - Subitem 2b2
         - Subitem 2b3
+
+## Code
+
+Inline `code` is marked and blocks of code are highlighted accordingly.
+
+```typescript
+export function inc(counter: number): number {
+  return counter++;
+}
+```
+
+## Image
+
+If your terminal supports it, images can be displayed as well.
+
+![Markdown Logo](./examples/logo.png)
+
+## Tables
+
+There are two algorithms that try to fit the content within the terminal width.
+If the table is too wide, it will be wrapped accordingly.
+
+| Letter | Number |
+|--------|--------|
+| A      | 1      |
+| B      | 2      |
+
+| Option | Description                                                               |
+|--------|---------------------------------------------------------------------------|
+| data   | path to data files to supply the data that will be passed into templates. |
+| engine | engine to be used for processing templates. Handlebars is the default.    |
+| ext    | extension to be used for dest files.                                      |
