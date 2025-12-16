@@ -54,7 +54,7 @@
     "catmd.d.mts",
     "renderer.mjs",
     "renderer.d.mts",
-    "readme.md",
+    "README.md",
     "LICENSE"
   ],
   "release": {
