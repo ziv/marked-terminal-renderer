@@ -5,6 +5,7 @@ import {
   Token,
   Tokens,
 } from "marked";
+import { resolve } from "node:path";
 import type { ChalkInstance } from "chalk";
 import chalk from "chalk";
 import terminalLink from "terminal-link";
@@ -19,13 +20,28 @@ import { emojify } from "node-emoji";
 const SEP = " "; // separator
 const EOL = "\n"; // end of line
 const LI = "྿"; // list character (meta char to avoid collision)
+const ANSI = ansiRegex();
+
+const REPLACEMENTS: [string | RegExp, string][] = [
+  [/\(c\)/g, "©"],
+  [/\(C\)/g, "©"],
+  [/\(tm\)/g, "™"],
+  [/\(TM\)/g, "™"],
+  [/\(r\)/g, "®"],
+  [/\(R\)/g, "®"],
+  [/\(p\)/g, "℗"],
+  [/\(P\)/g, "℗"],
+  [/\+-/g, "±"],
+  [/&quot;/g, '"'],
+  [/&#39;/g, "'"],
+];
 
 /**
  * Get the length of a string without ANSI codes.
  * @param str
  */
 function strLen(str: string): number {
-  return str.replace(ansiRegex(), "").length;
+  return str.replace(ANSI, "").length;
 }
 
 /**
@@ -41,27 +57,10 @@ function section(text: string) {
  * @param text
  */
 function symbols(text: string): string {
-  // first emojify to avoid replacing inside emoji codes
-  text = emojify(text);
-
-  // then replace other text patterns
-  const textReplacers: [string | RegExp, string][] = [
-    [/\(c\)/g, "©"],
-    [/\(C\)/g, "©"],
-    [/\(tm\)/g, "™"],
-    [/\(TM\)/g, "™"],
-    [/\(r\)/g, "®"],
-    [/\(R\)/g, "®"],
-    [/\(p\)/g, "℗"],
-    [/\(P\)/g, "℗"],
-    [/\+-/g, "±"],
-    [/&quot;/g, '"'],
-    [/&#39;/g, "'"],
-  ];
-  for (const [search, replace] of textReplacers) {
-    text = text.replace(search, replace);
-  }
-  return text;
+  return REPLACEMENTS.reduce(
+    (acc, [search, replace]) => acc.replace(search, replace),
+    emojify(text),
+  );
 }
 
 /**
@@ -115,6 +114,9 @@ export type TerminalRendererOptions = {
   // terminal
   lineLength: number;
 
+  // resources
+  cwd: string;
+
   // text
   strongStyle: ChalkInstance;
   emStyle: ChalkInstance;
@@ -153,7 +155,8 @@ export type TerminalRendererOptions = {
 };
 
 const BaseOptions: Partial<TerminalRendererOptions> = {
-  lineLength: 100,
+  lineLength: 80,
+  cwd: ".",
   quotePadding: 1,
   quoteChar: "│",
   hrChar: "─",
@@ -217,15 +220,15 @@ export function createTerminalRenderer(
   // process images here
   const walkTokens = async (token: Token) => {
     if (token.type === "image") {
-      // todo fix reading relative paths
       // todo add error handling
-      // todo add sizing support
-      const options = { height: 5 };
+      // todo add sizing support, probably via title attribute
+      const options = { height: 5 }; // temporary hack limit height to 5 rows
       if (token.href.startsWith("http")) {
         const body = await got(token.href).buffer();
         token.text = await terminalImage.buffer(body, options);
       } else {
-        token.text = await terminalImage.file(token.href, options);
+        const path = resolve(opts.cwd, token.href);
+        token.text = await terminalImage.file(path, options);
       }
     }
   };
@@ -377,18 +380,16 @@ export function createTerminalRenderer(
       if (token.ordered) {
         // ordered list need a counter
         let start = token.start || 1;
-        output = padLines(
-          EOL +
-            items.map((line) => line.replace(LI, opts.listStyle(start++ + ".")))
-              .join(EOL),
-        );
+        const lines = items
+          .map((line) => line.replace(LI, opts.listStyle(start++ + ".")))
+          .join(EOL);
+        output = padLines(EOL + lines);
       } else {
         // unordered list/checkboxes
-        output = padLines(
-          EOL +
-            items.map((line) => line.replace(LI, opts.listStyle(opts.listChar)))
-              .join(EOL),
-        );
+        const lines = items
+          .map((line) => line.replace(LI, opts.listStyle(opts.listChar)))
+          .join(EOL);
+        output = padLines(EOL + lines);
       }
       currentListDepth--;
       return section(
