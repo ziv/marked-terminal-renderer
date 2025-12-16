@@ -10,14 +10,14 @@ Installation using `npm` or any other package manager:
 npm i marked-terminal-renderer
 ```
 
-Basic usage example:
+Basic usage example, note the use of `await` since the renderer is asynchronous:
 
 ```javascript
 import { marked } from 'marked';
 import { createTerminalRenderer, DarkTheme } from 'marked-terminal-renderer';
 
 marked.use(createTerminalRenderer(DarkTheme));
-console.log(marked.parse('# Hello World\nThis is **bold text** and this is a [link](https://example.com). :smile:'));
+console.log(await marked.parse('# Hello World\nThis is **bold text** and this is a [link](https://example.com). :smile:'));
 ```
 
 ### 3rd Party Libraries
