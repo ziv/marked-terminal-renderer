@@ -15,6 +15,8 @@ Most Markdown syntax is supported and rendered with supported terminal:
 - 🌼 Lists (ordered, unordered, nested, task lists)
 - 🌼 Emojis
 
+![example](./examples/example.png)
+
 ### Usage
 
 Installation using `npm` or any other package manager:

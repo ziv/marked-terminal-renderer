@@ -4,6 +4,9 @@
   "description": "marked terminal renderer",
   "type": "module",
   "exports": "./renderer.mjs",
+  "bin": {
+    "catmd": "./catmd.mjs"
+  },
   "scripts": {
     "example": "tsx ./examples/example.mts",
     "build": "tsc"
@@ -45,6 +48,8 @@
     "semantic-release": "^25.0.2"
   },
   "files": [
+    "catmd.mjs",
+    "catmd.d.mts",
     "renderer.mjs",
     "renderer.d.mts",
     "readme.md",

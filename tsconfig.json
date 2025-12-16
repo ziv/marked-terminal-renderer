@@ -4,6 +4,7 @@
     "declaration": true
   },
   "files": [
+    "catmd.mts",
     "renderer.mts"
   ]
 }
