@@ -1,58 +1,282 @@
-import { marked, MarkedExtension, Renderer, RendererObject, Token, Tokens } from 'marked';
-import chalk from 'chalk';
-import { highlight } from 'cli-highlight';
-import Table from 'cli-table3';
-import { CliRendererOptions } from './types.mjs';
-import terminalImage from 'terminal-image';
-import { DARK } from './primitives.mjs';
-import { readFileSync } from 'node:fs';
 import {
-  block,
-  EOL,
-  hardWrap,
-  isCheckbox,
-  padLines,
-  replaceTextWithSymbols,
-  section,
-  LI,
-  SEP,
-  trimEmptylines
-} from './utils.mjs';
+  MarkedExtension,
+  Renderer,
+  RendererObject,
+  Token,
+  Tokens
+} from 'marked';
+import type { ChalkInstance } from 'chalk';
+import chalk from 'chalk';
 import terminalLink from 'terminal-link';
 import got from 'got';
 import boxen from 'boxen';
+import Table from 'cli-table3';
+import terminalImage from 'terminal-image';
+import ansiRegex from 'ansi-regex';
+import { highlight } from 'cli-highlight';
+import { emojify } from 'node-emoji';
+
+const SEP = ' '; // separator
+const EOL = '\n'; // end of line
+const LI = '྿'; // list character (meta char to avoid collision)
+
+/**
+ * Get the length of a string without ANSI codes.
+ * @param str
+ */
+function strLen(str: string): number {
+  return str.replace(ansiRegex(), '').length;
+}
+
+/**
+ * Add two new lines to create a section break.
+ * @param text
+ */
+function section(text: string) {
+  return text + EOL + EOL;
+}
+
+/**
+ * Replace common text patterns with symbols.
+ * @param text
+ */
+function symbols(text: string): string {
+  // first emojify to avoid replacing inside emoji codes
+  text = emojify(text);
+
+  // then replace other text patterns
+  const textReplacers: [string | RegExp, string][] = [
+    [/\(c\)/g, '©'],
+    [/\(C\)/g, '©'],
+    [/\(tm\)/g, '™'],
+    [/\(TM\)/g, '™'],
+    [/\(r\)/g, '®'],
+    [/\(R\)/g, '®'],
+    [/\(p\)/g, '℗'],
+    [/\(P\)/g, '℗'],
+    [/\+-/g, '±'],
+    [/&quot;/g, '"'],
+    [/&#39;/g, '\'']
+  ];
+  for (const [search, replace] of textReplacers) {
+    text = text.replace(search, replace);
+  }
+  return text;
+}
+
+/**
+ * Pad each line of the given text with spaces.
+ * @param text
+ * @param padding
+ */
+export function padLines(text: string, padding = 2): string {
+  return text.split(EOL).join(EOL + ' '.repeat(padding));
+}
+
+/**
+ * Hard wrap strip all newlines and re-wrap text to the given width word by word.
+ * This is a destructive operation and should be used with care.
+ * @param text
+ * @param width
+ */
+export function hardWrap(text: string, width: number) {
+  let current = '';
+  const lines: string[] = [];
+  for (const next of text.replace(/\n/g, ' ').split(' ')) {
+    if (strLen(current) + strLen(next) >= width) {
+      lines.push(current);
+      current = next;
+    } else if (current === '') {
+      current = next;
+    } else {
+      current += ' ' + next;
+    }
+  }
+  lines.push(current);
+  return lines.join('\n');
+}
+
+export function justify(text: string, width: number): string {
+  const newlines: string[] = [];
+  for (const line of text.split(EOL)) {
+    let l = line;
+
+    while (strLen(l) < width) {
+      // replace single space with double space to expand line
+      // single space must be between non-space characters
+      const newLine = l.replace(/(\S) (\S)/, '$1  $2');
+      if (newLine === l) {
+        // no more spaces to expand
+        break;
+      } else {
+        l = newLine;
+      }
+    }
+    newlines.push(l);
+  }
+  return newlines.join(EOL);
+}
+
+/**
+ * Trim empty lines if any from the given text.
+ * @param text
+ */
+export function trimEmptyLines(text: string): string {
+  return text.split('\n').filter((line) => line.trim() !== '').join('\n');
+}
+
 
 // todo should load dark/light themes based on terminal bg color
 // todo should support more themes
 // todo auto detect terminal capabilities (colors, images, links, etc)
 // todo wrapping text in any level (paragraphs, list items, table cells, etc)
+// todo support auto numbered nested lists (1., 1.1., 1.1.1., etc)
 
+export type TerminalRendererOptions = {
+  // terminal
+  lineLength: number;
+
+  // text
+  strongStyle: ChalkInstance;
+  emStyle: ChalkInstance;
+  delStyle: ChalkInstance;
+
+  // heading
+  headingLevels: ChalkInstance[];
+
+  // code
+  codeStyle: ChalkInstance;
+
+  // block-quote
+  quotePadding: number;
+  quoteChar: string;
+  quoteStyle: ChalkInstance;
+
+  // hr
+  hrChar: string;
+  hrStyle: ChalkInstance;
+
+  // lists
+  listStyle: ChalkInstance;
+  listChar: string;
+
+  // checkbox
+  cbCheckedChar: string;
+  cbUncheckedChar: string;
+  cbStyle: ChalkInstance;
+
+  // link
+  linkStyle: ChalkInstance;
+
+  // table
+  // todo complete options
+  tableWordWrap: boolean;
+};
+
+const BaseOptions: Partial<TerminalRendererOptions> = {
+  lineLength: 100,
+  quotePadding: 1,
+  quoteChar: '│',
+  hrChar: '─',
+  listChar: '•',
+  cbCheckedChar: '☑',
+  cbUncheckedChar: '☐',
+  tableWordWrap: true,
+  strongStyle: chalk.bold,
+  emStyle: chalk.italic,
+  delStyle: chalk.strikethrough
+};
+
+export const DarkTheme = {
+  ...BaseOptions,
+  headingLevels: [
+    chalk.bold.greenBright.underline,
+    chalk.bold.green,
+    chalk.bold.yellowBright,
+    chalk.bold.yellowBright,
+    chalk.bold.yellowBright,
+    chalk.bold.yellowBright
+  ],
+  codeStyle: chalk.bgBlackBright,
+  hrStyle: chalk.dim,
+  quoteStyle: chalk.dim,
+  listStyle: chalk.cyan,
+  cbStyle: chalk.cyan,
+  linkStyle: chalk.blueBright
+} as TerminalRendererOptions;
+
+// todo replace colors
+export const LightTheme = {
+  ...BaseOptions,
+  headingLevels: [
+    chalk.bold.yellowBright,
+    chalk.bold.yellowBright,
+    chalk.bold.yellowBright,
+    chalk.bold.yellowBright,
+    chalk.bold.yellowBright,
+    chalk.bold.yellowBright
+  ],
+  codeStyle: chalk.bgWhite,
+  hrStyle: chalk.dim,
+  quoteStyle: chalk.dim,
+  listStyle: chalk.redBright,
+  cbStyle: chalk.redBright,
+  linkStyle: chalk.blueBright
+} as TerminalRendererOptions;
 
 /**
  * Creates a CLI renderer extension for marked
  * @param opts
  */
-export function createCliRenderer(opts: CliRendererOptions): MarkedExtension {
+export function createTerminalRenderer(
+  opts: TerminalRendererOptions
+): MarkedExtension {
   let currentListDepth = 0;
-  let currentListItemIndex = 0;
 
+  // walk through tokens to modify them before rendering
+  // process images here
   const walkTokens = async (token: Token) => {
     if (token.type === 'image') {
       if (token.href.startsWith('http')) {
         const body = await got(token.href).buffer();
-        token.text = await terminalImage.buffer(body, {width: '50%', height: '50%'});
+        // todo add sizing support
+        token.text = await terminalImage.buffer(body, {
+          width: '50%',
+          height: '50%'
+        });
       } else {
-        // todo add terminal image support
         token.text = await terminalImage.file(token.href);
       }
     }
   };
 
+  // helper to render inline tokens
+  function inline(r: Renderer, token: Token) {
+    if ('tokens' in token && Array.isArray(token.tokens)) {
+      return r.parser.parseInline(token.tokens);
+    }
+    if ('text' in token && typeof token.text === 'string') {
+      return token.text;
+    }
+    return chalk.redBright('<ERROR INLINE>');
+  }
+
+  // helper to render block tokens
+  function block(r: Renderer, token: Token) {
+    if ('tokens' in token && Array.isArray(token.tokens)) {
+      return r.parser.parse(token.tokens);
+    }
+    if ('text' in token && typeof token.text === 'string') {
+      return token.text;
+    }
+    return chalk.redBright('<ERROR BLOCK>');
+  }
+
   const renderer: RendererObject = {
 
     // inline elements
 
-    space(token: Tokens.Space): string {
+    space(_: Tokens.Space): string {
       return '';
     },
 
@@ -63,38 +287,38 @@ export function createCliRenderer(opts: CliRendererOptions): MarkedExtension {
     },
 
     strong(token: Tokens.Strong): string {
-      return opts.strongStyle(autoApply(token));
+      return opts.strongStyle(inline(this, token));
     },
 
     em(token: Tokens.Em): string {
-      return opts.emStyle(autoApply(token));
+      return opts.emStyle(inline(this, token));
     },
 
     codespan(token: Tokens.Codespan): string {
-      return opts.codeStyle(autoApply(token));
+      return opts.codeStyle(token.text);
     },
 
-    br(): string {
+    br(_: Tokens.Br): string {
       return EOL;
     },
 
     del(token: Tokens.Del): string {
-      return opts.delStyle(autoApply(token));
+      return opts.delStyle(inline(this, token));
     },
 
     link(token: Tokens.Link): string {
-      return terminalLink(autoApply(token), token.href);
+      return terminalLink(inline(this, token), token.href);
     },
 
     image(token: Tokens.Image): string {
+      // see walkTokens for image processing
       return token.text;
     },
 
     text(token: Tokens.Text | Tokens.Escape): string {
-      if (token.type !== 'text') {
-        return '';
-      }
-      return replaceTextWithSymbols(autoApply(token));
+      return (token.type === 'text')
+        ? symbols(inline(this, token))
+        : token.text;
     },
 
     // block elements
@@ -103,70 +327,88 @@ export function createCliRenderer(opts: CliRendererOptions): MarkedExtension {
       const language = token.lang ?? '';
       const output = highlight(token.text, { language });
 
-      return language
-        ? boxen(output, {
-          title: language,
-          titleAlignment: 'left',
-          width: opts.lineLength,
-          padding: 1,
-          borderColor: 'gray'
-        })
-        : boxen(output);
+      return section(boxen(output, {
+        title: language,
+        titleAlignment: 'left',
+        width: opts.lineLength,
+        padding: 1,
+        borderColor: 'gray'
+      }));
     },
 
     blockquote(token: Tokens.Blockquote): string {
-      const text = padLines(autoApply(token));
+      // todo complete me
+      // const text = padLines(autoApply(token));
       // notify('blockquote', text);
       // const { quotePadding, quoteChar, quoteStyle } = opts;
       // const mapper = (line: string) =>
       //   quoteStyle(SEP.repeat(quotePadding) + quoteChar + SEP + line);
       // return block(lines(text.trim(), mapper));
-      return text;
+      return section(block(this, token));
+    },
+
+    def(_: Tokens.Def): string {
+      // todo implement me
+      return '';
     },
 
     heading(token: Tokens.Heading): string {
       const levelStyle = opts.headingLevels[token.depth - 1];
-      return section(levelStyle(autoApply(token)));
+      return section(levelStyle(inline(this, token)));
     },
 
-    hr(): string {
-      return block(SEP + opts.hrStyle(opts.hrChar.repeat(opts.lineLength - 2)) + SEP);
+    hr(_: Tokens.Hr): string {
+      return section(opts.hrStyle(opts.hrChar.repeat(opts.lineLength)));
     },
 
     paragraph(token: Tokens.Paragraph): string {
-      return section(hardWrap(autoApply(token), opts.lineLength));
+      return section(hardWrap(inline(this, token), opts.lineLength));
     },
 
     // compound elements
 
-    html(): string {
-      return block(chalk.redBright('HTML not implemented yet'));
+    html(_: Tokens.HTML | Tokens.Tag): string {
+      console.warn(
+        chalk.yellowBright(
+          '[TerminalRenderer] HTML token encountered, which is not supported in terminal renderer. Content will be skipped.'
+        )
+      );
+      return '';
     },
 
     list(token: Tokens.List): string {
       // todo list item can be multi-line because we do text wrap, need to handle that
       // todo if depth if 0, section is also redundant
       currentListDepth++;
-      let output = '';
-      const items = token.items.map(apply);
 
+      const items = token.items.map((i) => this.listitem(i));
+
+      let output = '';
       if (token.ordered) {
         // ordered list need a counter
         let start = token.start || 1;
-        output = padLines(EOL + items.map(line => line.replace(LI, opts.listStyle(start++ + '.'))).join(EOL));
-        // output = padLines(EOL + items.map(i => opts.listStyle(start++) + '.' + SEP + i).join(EOL));
+        output = padLines(
+          EOL +
+          items.map((line) => line.replace(LI, opts.listStyle(start++ + '.')))
+            .join(EOL)
+        );
       } else {
         // unordered list/checkboxes
-        output = padLines(EOL + items.map(line => line.replace(LI, opts.listStyle(opts.listChar))).join(EOL));
-        // output = padLines(EOL + items.map(i => opts.listStyle(opts.listChar) + SEP + i).join(EOL));
+        output = padLines(
+          EOL +
+          items.map((line) => line.replace(LI, opts.listStyle(opts.listChar)))
+            .join(EOL)
+        );
       }
       currentListDepth--;
-      return section((currentListDepth === 0) ? trimEmptylines(output) : output);
+      return section(
+        (currentListDepth === 0) ? trimEmptyLines(output) : output
+      );
     },
 
     listitem(token: Tokens.ListItem): string {
-      const item = autoApply(token);
-      return (isCheckbox(opts, item)) ? item : LI + SEP + item;
+      console.log(token);
+      return LI + SEP + block(this, token);
     },
 
     table({ header, rows }: Tokens.Table): string {
@@ -192,63 +434,5 @@ export function createCliRenderer(opts: CliRendererOptions): MarkedExtension {
     }
   };
 
-  function apply(token: Token) {
-    const r = renderer as Renderer;
-    // this switch exists since we must have a mapper
-    // between token types and renderer methods
-    // that unfortunately do not have the same names
-    // between a key value mapper and switch case statement
-    // I chose switch for better readability and type safety
-    switch (token.type) {
-      case 'text':
-        return r.text(token as Tokens.Text) as string;
-      case 'em':
-        return r.em(token as Tokens.Em);
-      case 'strong':
-        return r.strong(token as Tokens.Strong);
-      case 'codespan':
-        return r.codespan(token as Tokens.Codespan);
-      case 'link':
-        return r.link(token as Tokens.Link);
-      case 'image':
-        return r.image(token as Tokens.Image);
-      case 'del':
-        return r.del(token as Tokens.Del);
-      case 'list_item':
-        return r.listitem(token as Tokens.ListItem);
-      case 'list':
-        return r.list(token as Tokens.List);
-      case 'heading':
-        return r.heading(token as Tokens.Heading);
-      case 'code':
-        return r.code(token as Tokens.Code);
-      case 'checkbox':
-        return r.checkbox(token as Tokens.Checkbox);
-      case 'paragraph':
-        return r.paragraph(token as Tokens.Paragraph);
-      case 'blockquote':
-        return r.blockquote(token as Tokens.Blockquote);
-      case 'space':
-        return r.space(token as Tokens.Space);
-      default:
-        throw new Error('Unsupported token type in apply(): ' + token.type);
-    }
-  }
-
-  function autoApply(token: Token) {
-    // recursively apply tokens
-    if ('tokens' in token && Array.isArray(token.tokens)) {
-      return token.tokens.map(apply).join('');
-    }
-    // plain text as fallback
-    if ('text' in token && typeof token.text === 'string') {
-      return token.text;
-    }
-    // todo replace with proper error handling
-    console.warn(chalk.yellowBright(`[applyTokens] Unsupported token type: ${token.type}`));
-    return '';
-  }
-
   return { renderer, walkTokens, async: true };
 }
-

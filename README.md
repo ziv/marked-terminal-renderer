@@ -1,6 +1,7 @@
 # marked-terminal-renderer
 
-Modern, full featured terminal renderer [marked](https://github.com/markedjs/marked) extension.
+Modern, full featured terminal renderer
+[marked](https://github.com/markedjs/marked) extension.
 
 ## Install
 
@@ -13,7 +14,7 @@ npm i marked-terminal-renderer
 Thanks a lot to the following libraries that made this possible:
 
 | Feature | Supported using                                                  |
-|---------|------------------------------------------------------------------|
+| ------- | ---------------------------------------------------------------- |
 | Tables  | [cli-table3](https://github.com/cli-table/cli-table3)            |
 | Color   | [chalk](https://github.com/chalk/chalk)                          |
 | Images  | [terminal-image](https://github.com/sindresorhus/terminal-image) |

@@ -1,8 +1,9 @@
-import { marked } from 'marked';
-import { readFileSync } from 'node:fs';
-import { createCliRenderer } from '../renderer.mjs';
-import { DARK, LIGHT } from '../primitives.mjs';
+import { marked } from "marked";
+import { readFileSync } from "node:fs";
+import { createTerminalRenderer, DarkTheme } from '../renderer.mjs';
 
-
-marked.use(createCliRenderer(LIGHT));
-console.log(await marked.parse(readFileSync('./examples/example.md', 'utf-8')));
+marked.use(createTerminalRenderer(DarkTheme));
+const output = await marked.parse(
+  readFileSync("./examples/test.md", "utf-8"),
+);
+console.log(output);

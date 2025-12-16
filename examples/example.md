@@ -1,40 +1,23 @@
-# marked-terminal-renderer
+# Marked Terminal Renderer
 
-## Typographic
+## Text
 
-(c) (C) (r) (R) (tm) (TM) (p) (P) +-
+Handle Markdown formatting in terminal applications with support
+for **bold text**, _italic text_, ~~strikethrough~~ and [hyperlinks](https://github.com/ziv/marked-terminal-renderer).
+(in supported terminals).
 
-## Emojis
+Including symbols replacement for common pattern like (c) (C) (r) (R) (tm) (TM) (p) (P) +-.
 
-The renderer supports emojis using `:emoji_name:` syntax.
+Supports emojis using `:emoji_name:` syntax. :smile: :heart: :+1: :tada: :rocket: :100: :fire: :clap: :sparkles:
 
-:smile: :heart: :+1: :tada: :rocket: :100: :fire: :clap: :sparkles:
+Long text will properly wrap around to the next line maintaining correct indentation.
 
-## Emphasis
-
-Simple text
-
-**This is bold text**
-
-_This is italic text_
-
-~~Strikethrough~~
-
-This is a paragraph with a **bold** word, an _italic_ word, and a ~~strikethrough~~ word.
-
-## Image support
-
-![Markdown Logo](https://markdown-here.com/img/icon256.png)
-
-## Horizontal Rules
-
----
-
-## Blockquotes
-
-> Blockquotes can also be nested...
->
->> Blockquotes can also be nested...
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis lorem mi, sit amet rhoncus nibh scelerisque eu.
+Phasellus blandit fringilla egestas. Pellentesque a turpis ut odio cursus cursus. Vestibulum mollis ac nunc a blandit.
+Cras tortor nulla, interdum ultrices sodales sed, imperdiet id libero. Etiam a quam dolor. Aliquam malesuada, lacus sit
+amet pellentesque imperdiet, lectus odio ultricies lectus, eget viverra odio orci ut tellus. Nulla elementum sapien ac
+mi finibus, sed euismod dolor maximus. Fusce convallis luctus dui vel rhoncus. Proin eget tellus at odio egestas
+pharetra. Nullam mi nisi, bibendum non luctus at, convallis in nisi.
 
 ## Lists
 
@@ -43,7 +26,7 @@ This is a paragraph with a **bold** word, an _italic_ word, and a ~~strikethroug
 - First item
 - Second item
 - Third item
-- Item with too long text that should properly wrap around to the next line and maintain correct indentation.
+- Item with too long text that should properly wrap around to the next line and maintain correct indentation. Item with too long text that should properly wrap around to the next line and maintain correct indentation.
 - Another item
 
 ### Ordered list:
@@ -75,51 +58,3 @@ This is a paragraph with a **bold** word, an _italic_ word, and a ~~strikethroug
         - Subitem 2b1
         - Subitem 2b2
         - Subitem 2b3
-
-## Code
-
-Inline `code` and block of highlighted code:
-
-```typescript
-export function inc(counter: number): number {
-  return counter++;
-}
-```
-
-## Tables
-
-| Letter | Number |
-|--------|--------|
-| A      | 1      |
-| B      | 2      |
-
-| Option | Description                                                               |
-|--------|---------------------------------------------------------------------------|
-| data   | path to data files to supply the data that will be passed into templates. |
-| engine | engine to be used for processing templates. Handlebars is the default.    |
-| ext    | extension to be used for dest files.                                      |
-
-# Long Paragraph
-
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-unknown printer took a galley of type and scrambled it to make a type specimen unknown printer took a galley of type and
-scrambled it to make a type specimen
-book. It has survived not only five centuries, but also the leap into electronic
-typesetting, remaining essentially unchanged. It was popularised in the 1960s
-with the release of Letraset sheets containing Lorem Ipsum passages, and more
-recently with desktop publishing software like Aldus PageMaker including
-versions of Lorem Ipsum. This is [a link to wiki](https://en.wikipedia.org/wiki/Lorem_Ipsum) tp demonstrate links in a
-long paragraph.
-
-# Checkboxes
-
-- [ ] Markdown
-- [x] Marked-terminal-renderer
-- [ ] Terminal Applications
-
-```typescript
-export function inc(counter: number): number {
-  return counter++;
-}
-```
