@@ -53,9 +53,9 @@ Basic usage example, note the use of `await` since the renderer is asynchronous:
 
 ```javascript
 import { marked } from "marked";
-import { createTerminalRenderer, DarkTheme } from "marked-terminal-renderer";
+import { createTerminalRenderer, darkTheme } from "marked-terminal-renderer";
 
-marked.use(createTerminalRenderer(DarkTheme));
+marked.use(createTerminalRenderer(darkTheme()));
 console.log(
   await marked.parse(
     "# Hello World\nThis is **bold text** and this is a [link](https://example.com). :smile:",
