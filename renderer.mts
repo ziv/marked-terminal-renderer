@@ -237,15 +237,18 @@ export function createTerminalRenderer(
   // process images here
   const walkTokens = async (token: Token) => {
     if (token.type === 'image') {
-      // todo add error handling
       // todo add sizing support, probably via title attribute
-      const options = { height: 5 }; // temporary hack limit height to 5 rows
-      if (token.href.startsWith('http')) {
-        const body = await got(token.href).buffer();
-        token.text = await terminalImage.buffer(body, options);
-      } else {
-        const path = resolve(opts.cwd, token.href);
-        token.text = await terminalImage.file(path, options);
+      try {
+        const options = { height: 5 }; // temporary hack limit height to 5 rows
+        if (token.href.startsWith('http')) {
+          const body = await got(token.href).buffer();
+          token.text = await terminalImage.buffer(body, options);
+        } else {
+          const path = resolve(opts.cwd, token.href);
+          token.text = await terminalImage.file(path, options);
+        }
+      } catch (e) {
+        token.text = `[unable to load image: ${token.href}]`;
       }
     }
   };
