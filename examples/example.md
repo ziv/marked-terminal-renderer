@@ -93,7 +93,7 @@ export function inc(counter: number): number {
 
 If your terminal supports it, images can be displayed as well.
 
-![Markdown logo](./examples/logo.png)
+![Markdown logo](./logo.png)
 
 ## Tables
 
