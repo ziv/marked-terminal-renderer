@@ -3,17 +3,31 @@
 Modern, full featured terminal renderer extension for
 [marked](https://github.com/markedjs/marked).
 
-Most Markdown syntax is supported and rendered with supported terminal:
+Use it as an extension or use the built in `catmd` CLI tool to render Markdown
+files directly in your terminal. See the [usage section](#usage) for more details.
 
-- 🌼 Headings (H1 to H6)
-- 🌼 Bold, Italic, Strikethrough
-- 🌼 Blockquotes (with nesting support)
-- 🌼 Inline code and code blocks (with syntax highlighting)
-- 🌼 Links (with clickable support in supported terminals)
-- 🌼 Images
-- 🌼 Tables
-- 🌼 Lists (ordered, unordered, nested, task lists)
-- 🌼 Emojis
+Most Markdown syntax is supported and rendered with supported terminal (tested on `iTerm2`):
+
+- Typography
+    - 🌼 Text wrapping and alignment
+    - 🌼 Headings (H1 to H6)
+    - 🌼 Bold, Italic, Strikethrough
+    - 🌼 Clickable Links
+    - 🌼 Emojis
+    - 🌼 Inline code highlighted
+- Block elements
+    - 🌼 Horizontal rules
+    - 🌼 Lists (ordered, unordered, nested, task lists)
+    - 🌼 Blockquotes with nesting
+    - 🌼 Code blocks with syntax highlighting
+    - 🌼 Tables
+- Images
+    - 🌼 Local and remote (HTTP/S) images rendered directly in terminal
+- Colorful themes
+    - 🌼 Light and Dark themes included, easily customizable
+
+
+-
 
 ## Example output rendered in `iTerm2`
 
@@ -21,10 +35,18 @@ Most Markdown syntax is supported and rendered with supported terminal:
 
 ### Usage
 
-Installation using `npm` or any other package manager:
+#### Installation
+
+Local installation for using it an extension with `marked`:
 
 ```shell
 npm i marked-terminal-renderer
+```
+
+Or use globally to get access to the `catmd` CLI tool:
+
+```shell
+npm i -g marked-terminal-renderer
 ```
 
 Basic usage example, note the use of `await` since the renderer is asynchronous:
@@ -43,9 +65,10 @@ console.log(
 
 ### TODOs
 
+- [ ] complete documentation
 - [ ] should support different highlight based on themes (dark/light)
 - [ ] support auto numbered nested lists (1., 1.1., 1.1.1., etc)
-- [ ] fix any wrapping issues with nested elements (like lists inside
+- [x] fix any wrapping issues with nested elements (like lists inside
   blockquotes)
 
 ### 3rd Party Libraries
