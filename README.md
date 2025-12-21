@@ -6,28 +6,29 @@ Modern, full featured terminal renderer extension for
 [marked](https://github.com/markedjs/marked).
 
 Use it as an extension or use the built in `catmd` CLI tool to render Markdown
-files directly in your terminal. See the [usage section](#usage) for more details.
+files directly in your terminal. See the [usage section](#usage) for more
+details.
 
-Most Markdown syntax is supported and rendered with supported terminal (tested on `iTerm2`):
+Most Markdown syntax is supported and rendered with supported terminal (tested
+on `iTerm2`):
 
 - Inline Elements & Typography
-    - 🌼 Text wrapping and alignment
-    - 🌼 Headings (H1 to H6)
-    - 🌼 Bold, Italic, Strikethrough
-    - 🌼 Clickable Links
-    - 🌼 Emojis
-    - 🌼 Inline code highlighted
+  - 🌼 Text wrapping and alignment
+  - 🌼 Headings (H1 to H6)
+  - 🌼 Bold, Italic, Strikethrough
+  - 🌼 Clickable Links
+  - 🌼 Emojis
+  - 🌼 Inline code highlighted
 - Block elements
-    - 🌼 Horizontal rules
-    - 🌼 Lists (ordered, unordered, nested, task lists)
-    - 🌼 Blockquotes with nesting
-    - 🌼 Code blocks with syntax highlighting
-    - 🌼 Tables
+  - 🌼 Horizontal rules
+  - 🌼 Lists (ordered, unordered, nested, task lists)
+  - 🌼 Blockquotes with nesting
+  - 🌼 Code blocks with syntax highlighting
+  - 🌼 Tables
 - Images
-    - 🌼 Local and remote (HTTP/S) images rendered directly in terminal
+  - 🌼 Local and remote (HTTP/S) images rendered directly in terminal
 - Colorful themes
-    - 🌼 Light and Dark themes included, easily customizable
-
+  - 🌼 Light and Dark themes included, easily customizable
 
 ## Example output rendered in `iTerm2`
 
@@ -69,14 +70,14 @@ console.log(
 - [ ] should support different highlight based on themes (dark/light)
 - [ ] support auto numbered nested lists (1., 1.1., 1.1.1., etc)
 - [x] fix any wrapping issues with nested elements (like lists inside
-  blockquotes)
+      blockquotes)
 
 ### 3rd Party Libraries
 
 Shout out to the following libraries that make this renderer possible ❤️:
 
 | Feature | Library                                                          |
-|---------|------------------------------------------------------------------|
+| ------- | ---------------------------------------------------------------- |
 | Tables  | [cli-table3](https://github.com/cli-table/cli-table3)            |
 | Colors  | [chalk](https://github.com/chalk/chalk)                          |
 | Images  | [terminal-image](https://github.com/sindresorhus/terminal-image) |

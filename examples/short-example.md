@@ -5,8 +5,8 @@
 - With **bold text**
 - With _italic text_
 - With ~~strikethrough~~
-    1. Nested ordered item
-    2. Another nested ordered item
+  1. Nested ordered item
+  2. Another nested ordered item
 
 Supports emojis using `:emoji_name:` syntax. :smile: :heart: :+1: :tada:
 :rocket: :100: :fire: :clap: :sparkles:
@@ -29,6 +29,6 @@ export function inc(counter: number): number {
 ![Markdown logo](./logo.png)
 
 | Letter | Number |
-|--------|--------|
+| ------ | ------ |
 | A      | 1      |
 | B      | 2      |

@@ -1,6 +1,6 @@
-import { marked } from 'marked';
-import { readFileSync } from 'node:fs';
-import { createTerminalRenderer, darkTheme } from '../renderer.mjs';
+import { marked } from "marked";
+import { readFileSync } from "node:fs";
+import { createTerminalRenderer, darkTheme } from "../renderer.mjs";
 
 marked.use(createTerminalRenderer(darkTheme()));
 
