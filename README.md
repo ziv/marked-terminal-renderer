@@ -1,5 +1,7 @@
 # marked-terminal-renderer
 
+![npm version](https://img.shields.io/npm/v/marked-terminal-renderer.svg)
+
 Modern, full featured terminal renderer extension for
 [marked](https://github.com/markedjs/marked).
 
