@@ -111,46 +111,99 @@ function trimEmptyLines(text: string): string {
 }
 
 export type TerminalRendererOptions = {
-  // terminal
+  /**
+   * Maximum line length for wrapping text
+   */
   lineLength: number;
 
-  // resources
+  /**
+   * Current working directory for resolving relative image paths
+   */
   cwd: string;
 
-  // text
+  /**
+   * Style for strong text (bold)
+   */
   strongStyle: ChalkInstance;
+
+  /**
+   * Style for emphasized text (italic)
+   */
   emStyle: ChalkInstance;
+
+  /**
+   * Style for deleted text (strikethrough)
+   */
   delStyle: ChalkInstance;
 
-  // heading
+  /**
+   * Styles for heading levels 1-6
+   */
   headingLevels: ChalkInstance[];
 
-  // code
+  /**
+   * Style for inline code
+   */
   codeStyle: ChalkInstance;
 
-  // block-quote
+  /**
+   * Blockquote padding
+   */
   quotePadding: number;
+
+  /**
+   * Blockquote character (e.g. │)
+   */
   quoteChar: string;
+
+  /**
+   * Style for blockquotes
+   */
   quoteStyle: ChalkInstance;
 
-  // hr
+  /**
+   * Horizontal rule character (e.g. ─)
+   */
   hrChar: string;
+
+  /**
+   * Style for horizontal rules
+   */
   hrStyle: ChalkInstance;
 
-  // lists
+  /**
+   * Style for list markers
+   */
   listStyle: ChalkInstance;
+
+  /**
+   * List marker character (e.g. •)
+   */
   listChar: string;
 
-  // checkbox
+  /**
+   * Checkbox characters for checked state
+   */
   cbCheckedChar: string;
+
+  /**
+   * Checkbox characters for unchecked state
+   */
   cbUncheckedChar: string;
+
+  /**
+   * Style for checkboxes
+   */
   cbStyle: ChalkInstance;
 
-  // link
+  /**
+   * Style for links
+   */
   linkStyle: ChalkInstance;
 
-  // table
-  // todo complete options
+  /**
+   * Whether to word wrap table cells or not
+   */
   tableWordWrap: boolean;
 };
 
@@ -191,14 +244,14 @@ export const DarkTheme = {
 export const LightTheme = {
   ...BaseOptions,
   headingLevels: [
-    chalk.bold.yellowBright,
+    chalk.bold.green.underline,
     chalk.bold.yellowBright,
     chalk.bold.yellowBright,
     chalk.bold.yellowBright,
     chalk.bold.yellowBright,
     chalk.bold.yellowBright
   ],
-  codeStyle: chalk.bgWhite,
+  codeStyle: chalk.bgBlack,
   hrStyle: chalk.dim,
   quoteStyle: chalk.dim,
   listStyle: chalk.redBright,
@@ -364,9 +417,9 @@ export function createTerminalRenderer(
       );
     },
 
-    def(_: Tokens.Def): string {
-      // todo implement me
-      return '';
+    def(token: Tokens.Def): string {
+      // todo need to be checked
+      return terminalLink(inline(this, token), token.href);
     },
 
     heading(token: Tokens.Heading): string {
@@ -424,23 +477,21 @@ export function createTerminalRenderer(
     },
 
     table({ header, rows }: Tokens.Table): string {
-      const { lineLength, tableWordWrap: wordWrap } = opts;
-
       const head = header.map((cell) => cell.text);
       const bodyRows = rows.map((row) => row.map((cell) => cell.text));
 
       // create table with no columns restrictions
-      let table = new Table({ head, wordWrap });
+      let table = new Table({ head, wordWrap: opts.tableWordWrap });
       table.push(...bodyRows);
       const output = table.toString();
       const length = output.search(EOL);
-      if (length <= lineLength) {
+      if (length <= opts.lineLength) {
         return section(output);
       }
 
       // re-create table with normalized columns
-      const width = Math.ceil(lineLength / head.length);
-      table = new Table({ head, wordWrap, colWidths: head.map(() => width) });
+      const width = Math.ceil(opts.lineLength / head.length);
+      table = new Table({ head, wordWrap: opts.tableWordWrap, colWidths: head.map(() => width) });
       table.push(...bodyRows);
       return section(table.toString());
     }
