@@ -228,9 +228,9 @@ export const DarkTheme = {
     chalk.bold.greenBright.underline,
     chalk.bold.green,
     chalk.bold.yellowBright,
-    chalk.bold.yellowBright,
-    chalk.bold.yellowBright,
-    chalk.bold.yellowBright
+    chalk.yellowBright,
+    chalk.bold.yellow,
+    chalk.yellow
   ],
   codeStyle: chalk.bgBlackBright,
   hrStyle: chalk.dim,
@@ -244,14 +244,14 @@ export const DarkTheme = {
 export const LightTheme = {
   ...BaseOptions,
   headingLevels: [
-    chalk.bold.green.underline,
-    chalk.bold.yellowBright,
-    chalk.bold.yellowBright,
-    chalk.bold.yellowBright,
-    chalk.bold.yellowBright,
-    chalk.bold.yellowBright
+    chalk.bold.underline.magenta,
+    chalk.bold.magenta,
+    chalk.magenta,
+    chalk.bold.underline.blueBright,
+    chalk.bold.blueBright,
+    chalk.blueBright,
   ],
-  codeStyle: chalk.bgBlack,
+  codeStyle: chalk.bgGray.whiteBright,
   hrStyle: chalk.dim,
   quoteStyle: chalk.dim,
   listStyle: chalk.redBright,
