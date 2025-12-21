@@ -10,7 +10,7 @@ files directly in your terminal. See the [usage section](#usage) for more detail
 
 Most Markdown syntax is supported and rendered with supported terminal (tested on `iTerm2`):
 
-- Typography
+- Inline Elements & Typography
     - 🌼 Text wrapping and alignment
     - 🌼 Headings (H1 to H6)
     - 🌼 Bold, Italic, Strikethrough
@@ -28,8 +28,6 @@ Most Markdown syntax is supported and rendered with supported terminal (tested o
 - Colorful themes
     - 🌼 Light and Dark themes included, easily customizable
 
-
--
 
 ## Example output rendered in `iTerm2`
 
