@@ -50,6 +50,8 @@ Or use globally to get access to the `catmd` CLI tool:
 npm i -g marked-terminal-renderer
 ```
 
+#### Usage with marked as an extension
+
 Basic usage example, note the use of `await` since the renderer is asynchronous:
 
 ```javascript
@@ -62,6 +64,17 @@ console.log(
     "# Hello World\nThis is **bold text** and this is a [link](https://example.com). :smile:",
   ),
 );
+```
+
+#### Usage with the `catmd` CLI tool
+
+After installing globally, you can use the `catmd` command to render Markdown
+files directly in your terminal:
+
+```shell
+catmd README.md
+
+catmd -t light README.md
 ```
 
 ### TODOs
